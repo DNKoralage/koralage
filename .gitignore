@@ -1,0 +1,23 @@
+# Environment & secrets — NEVER commit to Git
+.env
+
+# Node.js dependencies
+node_modules/
+
+# Runtime / OS artifacts
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# DB backups (large, auto-generated)
+data/backups/
+
+# Temporary files created during atomic DB writes
+data/db/*.tmp
+
+# Sensitive CMS runtime data
+data/db/users.json
+data/db/sessions.json
+data/db/audit_logs.json
+data/db/contacts.json

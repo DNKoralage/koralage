@@ -1,0 +1,88 @@
+[
+  {
+    "id": "main",
+    "name": "Devnith Koralage",
+    "title": "Software Developer & Systems Engineer",
+    "tagline": "I build high-performance web experiences & streaming systems that matter.",
+    "bio": "Full-Stack Developer and Systems Engineer based in Dehiwala, Sri Lanka.",
+    "location": "Dehiwala, Sri Lanka",
+    "email": "dnkoralage@gmail.com",
+    "phone": "+94787984875",
+    "availability": "Open to Work / Available for Freelance",
+    "heroPortrait": "assets/images/devnith-cyber.jpg",
+    "realPortrait": "assets/images/devnith.jpg",
+    "heroStats": {
+      "experience": "4+ Years",
+      "projects": "25+",
+      "platforms": "22+"
+    },
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/dnkoralage1",
+      "facebook": "https://www.facebook.com/DNKoralage1",
+      "instagram": "https://www.instagram.com/DNKoralage1",
+      "whatsapp": "https://wa.me/94787984875"
+    },
+    "skills": [
+      {
+        "name": "Web Development",
+        "details": "React, Next.js, Node.js",
+        "percentage": 95
+      },
+      {
+        "name": "Systems & Broadcasting",
+        "details": "HLS / RTMP Architecture",
+        "percentage": 92
+      }
+    ],
+    "coreStack": [
+      "React",
+      "Next.js",
+      "Node.js",
+      "Docker",
+      "FFmpeg"
+    ],
+    "testimonial": {
+      "quote": "Devnith is an exceptional systems engineer and developer. He architected our media broadcast pipeline and modern web platform with flawless uptime, sub-second latency, and unmatched attention to detail.",
+      "author": "Indusara Media Executive Team • Broadcast Partner"
+    },
+    "stats": {
+      "clients": "20+",
+      "projects": "20+",
+      "experience": "4+",
+      "uptime": "99.9%"
+    },
+    "createdAt": "2026-10-04T04:48:11.883Z",
+    "updatedAt": "2026-10-04T07:04:57.164Z",
+    "heroTagline": "Software Developer & Systems Engineer [CMS LIVE]",
+    "heroHeading": "I build <span class=\"text-gradient\">high-performance web experiences</span> &amp; <span class=\"text-gradient-blue\">streaming systems</span> that matter.",
+    "heroSubtitle": "Devnith Koralage — Full-Stack Developer & Systems Architect specializing in broadcast streaming.",
+    "heroPrimaryBtn": {
+      "text": "Explore Projects",
+      "url": "#projects"
+    },
+    "heroSecondaryBtn": {
+      "text": "Contact Me",
+      "url": "#contact"
+    },
+    "heroMetricLabels": {
+      "experience": "Years of Experience",
+      "projects": "Projects Completed",
+      "platforms": "Active Web Platforms"
+    },
+    "heroCodeBadge": "Clean Code • Scalable Solutions • Pixel Perfect",
+    "aboutTagline": "PROFILE",
+    "aboutHeading": "About Me",
+    "expertiseTagline": "PROFICIENCY",
+    "expertiseHeading": "My Expertise",
+    "projectsTagline": "Portfolio",
+    "projectsTitle": "Selected Work",
+    "projectsSubtitle": "Production platforms, automated broadcast backends, and creative media.",
+    "processTagline": "Methodology",
+    "processTitle": "My Work Process",
+    "processSubtitle": "A structured, high-precision engineering lifecycle delivering resilient platforms.",
+    "contactTagline": "Available For Hire",
+    "contactTitle": "Let's Build Something Great",
+    "contactSubtitle": "Have a project in mind or want to collaborate?",
+    "contactAvailability": "Open to freelance & systems engineering contracts"
+  }
+]

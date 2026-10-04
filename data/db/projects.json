@@ -1,0 +1,98 @@
+[
+  {
+    "id": "indusara",
+    "title": "Indusara Media Network & Indusara TV",
+    "category": "streaming",
+    "categoryLabel": "Full Stack & Streaming Architecture",
+    "image": "assets/images/indusara.jpg",
+    "description": "Built high-performance web platforms and automated streaming infrastructure powering broadcast operations with ultra-low latency.",
+    "badge": "Live Broadcast",
+    "badgeType": "green",
+    "status": "Active Production",
+    "tags": [
+      "React",
+      "Node.js",
+      "HLS / RTMP",
+      "Docker"
+    ],
+    "liveUrl": "",
+    "detailHtml": "<p>Full-stack development and broadcast architecture for Indusara Media Network including Indusara TV. Designed ultra-low latency streaming pipelines with Docker containerisation and RTMP ingest servers.</p>",
+    "featured": true,
+    "createdAt": "2026-10-04T04:48:11.856Z",
+    "updatedAt": "2026-10-04T07:04:57.230Z",
+    "displayOrder": 1,
+    "published": true
+  },
+  {
+    "id": "nysco",
+    "title": "Nysco TV & Nysco Radio",
+    "category": "streaming",
+    "categoryLabel": "Broadcast Systems & Web App",
+    "image": "assets/images/nysco.jpg",
+    "description": "Custom software development and real-time streaming broadcast engine integrating simultaneous television video feeds and radio distribution.",
+    "badge": "Web Engine",
+    "badgeType": "cyan",
+    "status": "Dual Broadcast",
+    "tags": [
+      "Next.js",
+      "WebRTC",
+      "FFmpeg",
+      "Icecast"
+    ],
+    "liveUrl": "",
+    "detailHtml": "<p>Custom broadcast engine integrating simultaneous TV video and radio distribution. Built with Next.js frontend and Icecast streaming server infrastructure.</p>",
+    "featured": true,
+    "createdAt": "2026-10-04T04:48:11.865Z",
+    "updatedAt": "2026-10-04T07:04:57.233Z",
+    "displayOrder": 2,
+    "published": true
+  },
+  {
+    "id": "youtube_radio",
+    "title": "24/7 YouTube Continuous Radio",
+    "category": "multimedia",
+    "categoryLabel": "Automation & Audio Engineering",
+    "image": "assets/images/youtube-radio.jpg",
+    "description": "Designed Sri Lanka's pioneer 24/7 continuous automated live audio stream on YouTube with autonomous playlist management and spectral visualizers.",
+    "badge": "Pioneer 24/7",
+    "badgeType": "green",
+    "status": "24/7 Uptime",
+    "tags": [
+      "Python Automation",
+      "YouTube API",
+      "FFmpeg",
+      "FL Studio"
+    ],
+    "liveUrl": "",
+    "detailHtml": "<p>Sri Lanka's first 24/7 continuous automated YouTube live stream with autonomous playlist management, spectral visualizers, and zero-downtime broadcasting.</p>",
+    "featured": true,
+    "createdAt": "2026-10-04T04:48:11.868Z",
+    "updatedAt": "2026-10-04T07:04:57.235Z",
+    "displayOrder": 3,
+    "published": true
+  },
+  {
+    "id": "luminex",
+    "title": "Luminex",
+    "category": "web",
+    "categoryLabel": "Web Development & Multimedia",
+    "image": "assets/images/luminex.jpg",
+    "description": "Full-stack digital solutions and creative content production. Built dynamic web presence with high-converting user experience and motion VFX.",
+    "badge": "Creative Agency",
+    "badgeType": "cyan",
+    "status": "High Converting",
+    "tags": [
+      "Full-Stack",
+      "After Effects",
+      "UI/UX Design",
+      "Motion VFX"
+    ],
+    "liveUrl": "",
+    "detailHtml": "<p>Full digital transformation project including custom web platform, motion graphics, and VFX production delivering measurable business results.</p>",
+    "featured": true,
+    "createdAt": "2026-10-04T04:48:11.872Z",
+    "updatedAt": "2026-10-04T07:04:57.237Z",
+    "displayOrder": 4,
+    "published": true
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "process",
+    "title": "My Work Process",
+    "subtitle": "A structured, high-precision engineering lifecycle delivering resilient platforms from initial idea to continuous broadcast.",
+    "steps": [
+      {
+        "num": "01",
+        "icon": "🔍",
+        "title": "Discover",
+        "desc": "Requirements analysis and research."
+      },
+      {
+        "num": "02",
+        "icon": "📐",
+        "title": "Architecture",
+        "desc": "System design and schemas."
+      }
+    ],
+    "createdAt": "2026-10-04T04:48:11.890Z",
+    "updatedAt": "2026-10-04T06:40:44.507Z"
+  }
+]

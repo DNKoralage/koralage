@@ -1,0 +1,16 @@
+{
+  "name": "dnkoralage-portfolio",
+  "version": "1.0.0",
+  "description": "Personal Portfolio and Admin Dashboard",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "portfolio",
+    "admin"
+  ],
+  "author": "DNKoralage",
+  "license": "ISC"
+}

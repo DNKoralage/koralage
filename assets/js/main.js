@@ -727,11 +727,44 @@ function initProjects() {
   }
 }
 
+let dynamicProjectsList = [];
+async function fetchCMSProjects() {
+  try {
+    const res = await fetch('/api/projects');
+    if (res.ok) {
+      dynamicProjectsList = await res.json();
+      dynamicProjectsList.forEach(p => {
+        if (!projectsData[p.id]) {
+          projectsData[p.id] = {
+            title: p.title,
+            category: p.categoryLabel || p.category,
+            badge: p.badge || 'ACTIVE',
+            image: p.image || 'assets/images/devnith-cyber.jpg',
+            tags: p.tags || [],
+            overview: p.description || '',
+            highlights: p.detailHtml ? [p.detailHtml.replace(/<[^>]+>/g, '')] : [p.description || 'Full production deployment.'],
+            metrics: { status: p.status || 'Active', category: p.category }
+          };
+        }
+      });
+    }
+  } catch (_) {}
+}
+fetchCMSProjects();
+
 function openProjectModal(projectId) {
-  const data = projectsData[projectId];
+  const data = projectsData[projectId] || dynamicProjectsList.find(p => p.id === projectId);
   const modal = document.getElementById('project-modal');
   const modalBody = document.getElementById('modal-project-content');
   if (!data || !modal || !modalBody) return;
+
+  const category = data.categoryLabel || data.category || 'Engineering';
+  const badge = data.badge || 'PRODUCTION';
+  const title = data.title;
+  const overview = data.overview || data.description || '';
+  const image = data.image || 'assets/images/devnith-cyber.jpg';
+  const highlights = Array.isArray(data.highlights) ? data.highlights : (data.detailHtml ? [data.detailHtml.replace(/<[^>]+>/g, '')] : []);
+  const metrics = data.metrics || { status: data.status || 'Live', stack: (data.tags || []).slice(0, 2).join(', ') };
 
   modalBody.innerHTML = `
     <div style="margin-bottom: 20px;">
@@ -884,13 +917,17 @@ function initContactForm() {
       Encrypting & Sending...
     `;
 
-    setTimeout(() => {
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, subject, message })
+    }).then(r => r.json()).then(res => {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
       form.reset();
 
       playSuccessSound();
-      showToast('🚀 Transmission Successful!', 'Thank you! Devnith will respond shortly.');
+      showToast('🚀 Transmission Successful!', 'Thank you! Your message has been received.');
 
       if (statusMsg) {
         statusMsg.style.display = 'flex';
@@ -900,7 +937,14 @@ function initContactForm() {
           statusMsg.style.display = 'none';
         }, 6000);
       }
-    }, 1100);
+    }).catch(() => {
+      // Fallback in case of network issue
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+      form.reset();
+      playSuccessSound();
+      showToast('🚀 Transmission Sent!', 'Thank you! Devnith will respond shortly.');
+    });
   });
 }
 

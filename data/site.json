@@ -1,0 +1,40 @@
+{
+  "name": "Devnith Koralage",
+  "title": "Software Developer & Systems Engineer",
+  "tagline": "I build high-performance web experiences & streaming systems that matter.",
+  "bio": "Full-Stack Developer and Systems Engineer based in Dehiwala, Sri Lanka. Specialized in building modern, responsive web platforms, advanced TV/radio streaming server architecture, and high-quality multimedia content.",
+  "location": "Dehiwala, Sri Lanka",
+  "email": "dnkoralage@gmail.com",
+  "phone": "+94787984875",
+  "availability": "Open to Work / Available for Freelance",
+  "heroPortrait": "assets/images/devnith-cyber.jpg",
+  "realPortrait": "assets/images/devnith.jpg",
+  "heroStats": {
+    "experience": "4+",
+    "projects": "20+",
+    "platforms": "20+"
+  },
+  "social": {
+    "linkedin": "https://www.linkedin.com/in/dnkoralage1",
+    "facebook": "https://www.facebook.com/DNKoralage1",
+    "instagram": "https://www.instagram.com/DNKoralage1",
+    "whatsapp": "https://wa.me/94787984875"
+  },
+  "skills": [
+    { "name": "Web Development", "details": "React, Next.js, Node.js, Tailwind CSS", "percentage": 95 },
+    { "name": "Systems & Broadcasting", "details": "TV/Radio Streaming Server Architecture, YouTube Live Automation", "percentage": 90 },
+    { "name": "Multimedia Production", "details": "Video Editing (After Effects/Filmora), Directing", "percentage": 85 },
+    { "name": "Audio Engineering", "details": "FL Studio, Cubase, Music Composition", "percentage": 80 }
+  ],
+  "coreStack": ["React", "Next.js", "Node.js", "HLS / RTMP", "Docker", "FFmpeg", "FL Studio", "After Effects"],
+  "testimonial": {
+    "quote": "Devnith is an exceptional systems engineer and developer. He architected our media broadcast pipeline and modern web platform with flawless uptime, sub-second latency, and unmatched attention to detail.",
+    "author": "Indusara Media Executive Team • Broadcast Partner"
+  },
+  "stats": {
+    "clients": "20+",
+    "projects": "20+",
+    "experience": "4+",
+    "uptime": "99.9%"
+  }
+}

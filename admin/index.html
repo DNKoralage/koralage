@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Devnith Koralage Portfolio CMS</title>
+  <base href="/admin/">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%230B0F19'/><text x='50%' y='65%' font-family='sans-serif' font-weight='900' font-size='52' fill='%2300F0FF' text-anchor='middle'>DK</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       1. SECURE LOGIN SCREEN (Shown if unauthenticated)
+  ═══════════════════════════════════════════════════ -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-bg-orb orb-a"></div>
+    <div class="login-bg-orb orb-b"></div>
+
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="logo-badge-lg">DK</div>
+        <div>
+          <h1 class="login-title">Admin Access</h1>
+          <p class="login-sub">Devnith Koralage Portfolio CMS</p>
+        </div>
+      </div>
+
+      <form class="login-form" id="loginForm" onsubmit="event.preventDefault();" autocomplete="on">
+        <div class="field-group">
+          <label class="field-label" for="loginUsername">Admin Username / Email</label>
+          <input type="text" class="field-input" id="loginUsername" placeholder="e.g. admin" required autocomplete="username">
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="loginPassword">Password</label>
+          <div class="password-wrap">
+            <input type="password" class="field-input" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="eye-btn" id="eyeBtn" aria-label="Toggle password visibility">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="login-error" id="loginError"></div>
+
+        <button type="submit" class="btn-primary-lg" id="loginBtn">
+          <span>Sign In to CMS</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </form>
+      <div style="margin-top:20px; text-align:center; font-size:0.78rem; color:var(--text-muted);">
+        🔒 Protected by scrypt password hashing & cryptographic session tokens.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       2. MAIN CMS DASHBOARD
+  ═══════════════════════════════════════════════════ -->
+  <div class="dashboard" id="dashboard" style="display:none;">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="logo-badge">DK</div>
+        <div class="brand-text">
+          <div class="brand-name">Portfolio CMS</div>
+          <div class="brand-sub" id="adminUserRole">Administrator</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Main</div>
+        <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+          Dashboard
+        </a>
+
+        <div class="nav-section-label" style="margin-top:14px;">Website Sections</div>
+        <a href="#" class="nav-item" data-page="home" id="nav-home">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Home
+        </a>
+        <a href="#" class="nav-item" data-page="about" id="nav-about">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          About
+        </a>
+        <a href="#" class="nav-item" data-page="expertise" id="nav-expertise">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+          Expertise
+        </a>
+        <a href="#" class="nav-item" data-page="projects" id="nav-projects">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          Projects
+          <span class="nav-badge" id="projectsCount">0</span>
+        </a>
+        <a href="#" class="nav-item" data-page="process" id="nav-process">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Work Process
+        </a>
+
+        <div class="nav-section-label" style="margin-top:14px;">Content & Assets</div>
+        <a href="#" class="nav-item" data-page="posts" id="nav-posts">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Posts
+        </a>
+        <a href="#" class="nav-item" data-page="pages" id="nav-pages">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+          Pages
+        </a>
+        <a href="#" class="nav-item" data-page="media" id="nav-media">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Media Library
+        </a>
+        <a href="#" class="nav-item" data-page="contact" id="nav-contact">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          Contact
+          <span class="nav-badge" id="inquiriesCount" style="display:none; background:var(--orange);">0</span>
+        </a>
+
+        <div class="nav-section-label" style="margin-top:14px;">System</div>
+        <a href="#" class="nav-item" data-page="settings" id="nav-settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Site Settings
+        </a>
+        <a href="#" class="nav-item" data-page="security" id="nav-security">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Admin / Security
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="logout-btn" id="logoutBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content" id="mainContent">
+
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Navigation">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <div class="topbar-title" id="topbarTitle">Dashboard Overview</div>
+        <div class="topbar-right">
+          <a href="/" target="_blank" class="qa-btn" style="padding:6px 14px; font-size:0.85rem;" title="Open live public portfolio">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            Live Site
+          </a>
+          <div class="topbar-status">
+            <span class="pulse-dot-sm green"></span>
+            <span>CMS Engine Active</span>
+          </div>
+          <div class="topbar-user" id="topbarUserBadge">
+            <div class="user-avatar" id="userAvatar">DK</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Toast Container -->
+      <div class="toast" id="toast"></div>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 1: DASHBOARD
+      ═══════════════════════════════════════════════════ -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-header">
+          <h1 class="page-title">Dashboard Overview</h1>
+          <p class="page-sub">Welcome back! Manage your portfolio content and systems.</p>
+        </div>
+
+        <div class="overview-stats">
+          <div class="stat-card">
+            <div class="stat-icon cyan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg></div>
+            <div class="stat-info"><div class="stat-num" id="ov-projects">—</div><div class="stat-lbl">Projects</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div class="stat-info"><div class="stat-num" id="ov-images">—</div><div class="stat-lbl">Images in Media</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path></svg></div>
+            <div class="stat-info"><div class="stat-num" id="ov-contacts">—</div><div class="stat-lbl">Inquiries</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div>
+            <div class="stat-info"><div class="stat-num" id="ov-skills">—</div><div class="stat-lbl">Active Skills</div></div>
+          </div>
+        </div>
+
+        <div class="overview-grid">
+          <div class="glass-panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Recent Projects</h2>
+              <button class="btn-sm-primary" onclick="AdminApp.switchPage('projects')">Manage Projects</button>
+            </div>
+            <div id="recentProjects" class="recent-projects-list"></div>
+          </div>
+
+          <div class="glass-panel">
+            <div class="panel-header">
+              <h2 class="panel-title">System & Security Status</h2>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px; font-size:0.9rem; color:var(--text-sub);">
+              <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border);">
+                <span>Database Engine:</span>
+                <span style="color:var(--cyan); font-family:var(--font-mono);">Embedded Document DB (data/db/)</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border);">
+                <span>Auth Encryption:</span>
+                <span style="color:var(--green); font-family:var(--font-mono);">scrypt + Constant-Time Verify</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border);">
+                <span>Hostinger Compatibility:</span>
+                <span style="color:var(--green); font-weight:600;">100% Zero-Native Dependency</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:8px 0;">
+                <span>Session Store:</span>
+                <span style="color:var(--text-primary); font-family:var(--font-mono);">24-hour TTL Persistent Sessions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 2: HOME (Complete Home Page CMS Editor)
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-home">
+        <!-- Sticky Editor Header with Title, Preview, and Save -->
+        <div class="home-editor-header">
+          <div>
+            <h1 class="page-title">Home Page Editor</h1>
+            <p class="page-sub">Edit and customize all sections displayed on your public home page in real time.</p>
+          </div>
+          <div class="header-actions">
+            <a href="/" target="_blank" class="btn-ghost-preview" id="previewHomeBtn" title="Open live public portfolio in a new tab">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              <span>Preview Live</span>
+            </a>
+            <button class="btn-primary-action" id="saveHomeBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              <span>Save Changes</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section Navigation Pills -->
+        <div class="home-section-nav" id="homeSectionNav">
+          <button type="button" class="home-nav-tab active" data-target-sec="sec-hero">1. Hero Section</button>
+          <button type="button" class="home-nav-tab" data-target-sec="sec-about">2. About / Intro</button>
+          <button type="button" class="home-nav-tab" data-target-sec="sec-expertise">3. Expertise &amp; Skills</button>
+          <button type="button" class="home-nav-tab" data-target-sec="sec-projects">4. Featured Projects</button>
+          <button type="button" class="home-nav-tab" data-target-sec="sec-process">5. Work Process</button>
+          <button type="button" class="home-nav-tab" data-target-sec="sec-contact">6. Contact / CTA</button>
+        </div>
+
+        <!-- ── 1. HERO SECTION ────────────────────────────── -->
+        <div class="home-sec-block" id="sec-hero">
+          <div class="glass-panel" style="margin-bottom:20px;">
+            <div class="panel-header">
+              <h2 class="panel-title">1. Hero Section Content</h2>
+              <span class="badge cyan">Hero &amp; Above-The-Fold</span>
+            </div>
+
+            <div class="form-grid">
+              <div class="field-group full-width">
+                <label class="field-label" for="home-tagline">Tagline Badge Text</label>
+                <input type="text" class="field-input" id="home-tagline" placeholder="Software Developer & Systems Engineer">
+              </div>
+
+              <!-- Hero Heading with Rich-Text Toolbar -->
+              <div class="field-group full-width">
+                <label class="field-label" for="home-headline">Hero Main Heading (Rich-Text / HTML enabled)</label>
+                <div class="rte-wrap">
+                  <div class="rte-toolbar" data-target="home-headline">
+                    <button type="button" class="rte-btn" data-action="bold"><b>B</b></button>
+                    <button type="button" class="rte-btn" data-action="italic"><i>I</i></button>
+                    <button type="button" class="rte-btn rte-btn-gradient" data-action="grad-cyan" title="Wrap in Cyan Gradient">✦ Cyan Gradient</button>
+                    <button type="button" class="rte-btn rte-btn-gradient-blue" data-action="grad-blue" title="Wrap in Blue Gradient">✦ Blue Gradient</button>
+                    <button type="button" class="rte-btn" data-action="code">&lt;/&gt;</button>
+                  </div>
+                  <textarea class="field-textarea" id="home-headline" rows="2" placeholder="I build high-performance web experiences & streaming systems that matter."></textarea>
+                </div>
+              </div>
+
+              <!-- Hero Subtitle with Rich-Text Toolbar -->
+              <div class="field-group full-width">
+                <label class="field-label" for="home-subtext">Hero Subtitle / Description</label>
+                <div class="rte-wrap">
+                  <div class="rte-toolbar" data-target="home-subtext">
+                    <button type="button" class="rte-btn" data-action="bold"><b>B</b></button>
+                    <button type="button" class="rte-btn" data-action="italic"><i>I</i></button>
+                    <button type="button" class="rte-btn" data-action="link">🔗 Link</button>
+                  </div>
+                  <textarea class="field-textarea" id="home-subtext" rows="3" placeholder="I'm Devnith Koralage..."></textarea>
+                </div>
+              </div>
+
+              <!-- Hero Cyber Portrait Image -->
+              <div class="field-group full-width">
+                <label class="field-label">Hero Cyber Mode Portrait Image</label>
+                <div class="image-field-composite">
+                  <div class="image-field-row">
+                    <input type="text" class="field-input" id="home-heroPortrait" placeholder="assets/images/devnith-cyber.jpg" style="flex:1;">
+                    <button type="button" class="btn-ghost-sm" onclick="AdminApp.openImagePicker('home-heroPortrait')">Choose from Library</button>
+                    <label class="btn-sm-primary" for="upload-heroPortrait" style="cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                      Upload New
+                    </label>
+                    <input type="file" id="upload-heroPortrait" accept="image/*" style="display:none;" onchange="AdminApp.uploadSingleImage(this, 'home-heroPortrait')">
+                  </div>
+                  <div class="img-field-preview-box">
+                    <img id="home-heroPortrait-preview" src="assets/images/devnith-cyber.jpg" alt="Hero Portrait" class="img-field-thumb" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 60\'><rect fill=\'%23111827\' width=\'100\' height=\'60\'/></svg>'">
+                    <div class="img-field-info">Preview of active cyber developer portrait displayed in the 3D rotating glass frame.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Hero Authentic Portrait Image -->
+              <div class="field-group full-width">
+                <label class="field-label">Authentic Real Mode Portrait Image</label>
+                <div class="image-field-composite">
+                  <div class="image-field-row">
+                    <input type="text" class="field-input" id="home-realPortrait" placeholder="assets/images/devnith.jpg" style="flex:1;">
+                    <button type="button" class="btn-ghost-sm" onclick="AdminApp.openImagePicker('home-realPortrait')">Choose from Library</button>
+                    <label class="btn-sm-primary" for="upload-realPortrait" style="cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                      Upload New
+                    </label>
+                    <input type="file" id="upload-realPortrait" accept="image/*" style="display:none;" onchange="AdminApp.uploadSingleImage(this, 'home-realPortrait')">
+                  </div>
+                  <div class="img-field-preview-box">
+                    <img id="home-realPortrait-preview" src="assets/images/devnith.jpg" alt="Real Portrait" class="img-field-thumb" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 60\'><rect fill=\'%23111827\' width=\'100\' height=\'60\'/></svg>'">
+                    <div class="img-field-info">Authentic photographer portrait shown when visitors toggle to Real Mode.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CTA Buttons -->
+              <div class="field-group">
+                <label class="field-label" for="home-primaryBtnText">Primary CTA Button Text</label>
+                <input type="text" class="field-input" id="home-primaryBtnText" placeholder="View My Work">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-primaryBtnUrl">Primary CTA Button Link</label>
+                <input type="text" class="field-input" id="home-primaryBtnUrl" placeholder="#projects">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-secondaryBtnText">Secondary CTA Button Text</label>
+                <input type="text" class="field-input" id="home-secondaryBtnText" placeholder="Let's Talk">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-secondaryBtnUrl">Secondary CTA Button Link</label>
+                <input type="text" class="field-input" id="home-secondaryBtnUrl" placeholder="#contact">
+              </div>
+
+              <!-- Floating Stats Badges -->
+              <div class="field-group">
+                <label class="field-label" for="home-stat1">Floating Metric 1: Experience</label>
+                <input type="text" class="field-input" id="home-stat1" placeholder="4+">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-stat2">Floating Metric 2: Projects</label>
+                <input type="text" class="field-input" id="home-stat2" placeholder="20+">
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="home-stat3">Floating Metric 3: Active Platforms</label>
+                <input type="text" class="field-input" id="home-stat3" placeholder="20+">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 2. ABOUT / INTRO SECTION ────────────────────── -->
+        <div class="home-sec-block" id="sec-about">
+          <div class="glass-panel" style="margin-bottom:20px;">
+            <div class="panel-header">
+              <h2 class="panel-title">2. About / Intro Section Content</h2>
+              <span class="badge purple">Profile &amp; Biography</span>
+            </div>
+
+            <div class="form-grid">
+              <div class="field-group">
+                <label class="field-label" for="home-aboutTagline">Section Tagline Badge</label>
+                <input type="text" class="field-input" id="home-aboutTagline" placeholder="PROFILE">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-aboutHeading">Section Heading</label>
+                <input type="text" class="field-input" id="home-aboutHeading" placeholder="About Me">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-aboutName">Full Name</label>
+                <input type="text" class="field-input" id="home-aboutName" placeholder="Devnith Koralage">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-aboutTitle">Professional Title</label>
+                <input type="text" class="field-input" id="home-aboutTitle" placeholder="Software Developer & Systems Engineer">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-aboutLocation">Location</label>
+                <input type="text" class="field-input" id="home-aboutLocation" placeholder="Dehiwala, Sri Lanka">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-aboutEmail">Contact Email</label>
+                <input type="email" class="field-input" id="home-aboutEmail" placeholder="dnkoralage@gmail.com">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-aboutPhone">Phone Number</label>
+                <input type="text" class="field-input" id="home-aboutPhone" placeholder="+94 78 798 4875">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-aboutAvailability">Availability Status Badge</label>
+                <input type="text" class="field-input" id="home-aboutAvailability" placeholder="Open to Work / Available for Freelance">
+              </div>
+
+              <!-- About Bio with Rich-Text Toolbar -->
+              <div class="field-group full-width">
+                <label class="field-label" for="home-aboutBio">Biography Narrative (Rich-Text / HTML enabled)</label>
+                <div class="rte-wrap">
+                  <div class="rte-toolbar" data-target="home-aboutBio">
+                    <button type="button" class="rte-btn" data-action="bold"><b>B</b></button>
+                    <button type="button" class="rte-btn" data-action="italic"><i>I</i></button>
+                    <button type="button" class="rte-btn" data-action="link">🔗 Link</button>
+                    <button type="button" class="rte-btn" data-action="code">&lt;/&gt;</button>
+                  </div>
+                  <textarea class="field-textarea" id="home-aboutBio" rows="5" placeholder="Full-Stack Developer and Systems Engineer based in..."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 3. EXPERTISE & SKILLS SECTION ────────────────── -->
+        <div class="home-sec-block" id="sec-expertise">
+          <div class="glass-panel" style="margin-bottom:20px;">
+            <div class="panel-header">
+              <h2 class="panel-title">3. Expertise &amp; Skills Section Content</h2>
+              <button type="button" class="btn-sm-primary" id="homeAddSkillBtn">+ Add Skill</button>
+            </div>
+
+            <div class="form-grid" style="margin-bottom:20px;">
+              <div class="field-group">
+                <label class="field-label" for="home-expertiseTagline">Section Tagline Badge</label>
+                <input type="text" class="field-input" id="home-expertiseTagline" placeholder="PROFICIENCY">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-expertiseHeading">Section Heading</label>
+                <input type="text" class="field-input" id="home-expertiseHeading" placeholder="My Expertise">
+              </div>
+            </div>
+
+            <label class="field-label" style="margin-bottom:10px; display:block;">Proficiency Progress Bars</label>
+            <div class="skills-editor-list" id="homeSkillsList"></div>
+
+            <div class="field-group full-width" style="margin-top:20px;">
+              <label class="field-label" for="home-coreStack">Core Stack Tech Tags (comma-separated)</label>
+              <input type="text" class="field-input" id="home-coreStack" placeholder="React, Next.js, Node.js, HLS / RTMP, Docker, FFmpeg, FL Studio, After Effects">
+              <span style="font-size:0.75rem; color:var(--text-muted); margin-top:4px; display:block;">Pill badges displayed underneath the skills list.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 4. FEATURED PROJECTS SECTION ────────────────── -->
+        <div class="home-sec-block" id="sec-projects">
+          <div class="glass-panel" style="margin-bottom:20px;">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">4. Featured Projects Section</h2>
+                <span class="badge orange">Home Page Showcase</span>
+              </div>
+              <button type="button" class="btn-sm-primary" onclick="AdminApp.openProjectModal()">+ Add New Project</button>
+            </div>
+
+            <div class="form-grid">
+              <div class="field-group">
+                <label class="field-label" for="home-projectsTagline">Section Tagline Badge</label>
+                <input type="text" class="field-input" id="home-projectsTagline" placeholder="Portfolio">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-projectsTitle">Section Title</label>
+                <input type="text" class="field-input" id="home-projectsTitle" placeholder="Selected Work">
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="home-projectsSubtitle">Section Subtitle</label>
+                <input type="text" class="field-input" id="home-projectsSubtitle" placeholder="Real-world production platforms, automated broadcast backends, and creative media.">
+              </div>
+            </div>
+
+            <div style="margin-top:20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <label class="field-label" style="margin:0;">Featured On Home Page</label>
+                <span style="font-size:0.78rem; color:var(--text-muted);">Toggle which projects appear on the home page showcase:</span>
+              </div>
+              <div id="homeFeaturedProjectsList" class="featured-projs-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 5. WORK PROCESS SECTION ──────────────────────── -->
+        <div class="home-sec-block" id="sec-process">
+          <div class="glass-panel" style="margin-bottom:20px;">
+            <div class="panel-header">
+              <h2 class="panel-title">5. Work Process Methodology (6-Step Lifecycle)</h2>
+              <span class="badge cyan">Engineering Timeline</span>
+            </div>
+
+            <div class="form-grid" style="margin-bottom:20px;">
+              <div class="field-group">
+                <label class="field-label" for="home-processTagline">Section Tagline Badge</label>
+                <input type="text" class="field-input" id="home-processTagline" placeholder="Methodology">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-processTitle">Section Title</label>
+                <input type="text" class="field-input" id="home-processTitle" placeholder="My Work Process">
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="home-processSubtitle">Section Subtitle</label>
+                <input type="text" class="field-input" id="home-processSubtitle" placeholder="A structured, high-precision engineering lifecycle delivering resilient platforms from initial idea to continuous broadcast.">
+              </div>
+            </div>
+
+            <label class="field-label" style="margin-bottom:12px; display:block;">Process Steps (01 to 06)</label>
+            <div id="homeProcessStepsList" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px;"></div>
+          </div>
+        </div>
+
+        <!-- ── 6. CONTACT & CTA SECTION ────────────────────── -->
+        <div class="home-sec-block" id="sec-contact">
+          <div class="glass-panel" style="margin-bottom:20px;">
+            <div class="panel-header">
+              <h2 class="panel-title">6. Contact &amp; CTA Section Content</h2>
+              <span class="badge green">Transmission &amp; Inquiries</span>
+            </div>
+
+            <div class="form-grid">
+              <div class="field-group">
+                <label class="field-label" for="home-contactTagline">Section Tagline Badge</label>
+                <input type="text" class="field-input" id="home-contactTagline" placeholder="Available For Hire">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-contactTitle">Section Title</label>
+                <input type="text" class="field-input" id="home-contactTitle" placeholder="Let's Build Something Great">
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="home-contactSubtitle">Section Subtitle</label>
+                <input type="text" class="field-input" id="home-contactSubtitle" placeholder="Have a project in mind or want to collaborate? I'd love to hear from you.">
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="home-contactAvailability">Availability Text</label>
+                <input type="text" class="field-input" id="home-contactAvailability" placeholder="Open to new opportunities">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-linkedin">LinkedIn URL</label>
+                <input type="url" class="field-input" id="home-linkedin" placeholder="https://www.linkedin.com/in/dnkoralage1">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-facebook">Facebook URL</label>
+                <input type="url" class="field-input" id="home-facebook" placeholder="https://www.facebook.com/DNKoralage1">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="home-instagram">Instagram URL</label>
+                <input type="url" class="field-input" id="home-instagram" placeholder="https://www.instagram.com/DNKoralage1">
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="home-whatsapp">WhatsApp Link</label>
+                <input type="url" class="field-input" id="home-whatsapp" placeholder="https://wa.me/94787984875">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Actions Bar -->
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:20px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); margin-top:20px;">
+          <div>
+            <div style="font-weight:600; color:#fff;">Ready to publish updates?</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">All changes are saved persistently and updated immediately on the live home page.</div>
+          </div>
+          <div style="display:flex; gap:12px;">
+            <a href="/" target="_blank" class="btn-ghost-preview" title="Preview home page">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              <span>Preview Live</span>
+            </a>
+            <button class="btn-primary-action" id="saveHomeBtnBottom">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              <span>Save Changes</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 3: ABOUT (Bio & Details)
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-about">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">About Me</h1>
+            <p class="page-sub">Edit your bio, location, contact metadata, and freelance availability.</p>
+          </div>
+          <button class="btn-primary-action" id="saveAboutBtn">Save About</button>
+        </div>
+
+        <div class="profile-grid">
+          <div class="glass-panel">
+            <div class="panel-header"><h2 class="panel-title">Personal Information</h2></div>
+            <div class="form-grid">
+              <div class="field-group">
+                <label class="field-label" for="about-name">Full Name</label>
+                <input type="text" class="field-input" id="about-name">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="about-title">Professional Title</label>
+                <input type="text" class="field-input" id="about-title">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="about-location">Location</label>
+                <input type="text" class="field-input" id="about-location">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="about-email">Contact Email</label>
+                <input type="email" class="field-input" id="about-email">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="about-phone">Phone Number</label>
+                <input type="text" class="field-input" id="about-phone">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="about-availability">Availability Status Badge</label>
+                <input type="text" class="field-input" id="about-availability">
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-panel">
+            <div class="panel-header"><h2 class="panel-title">Biography</h2></div>
+            <div class="form-grid">
+              <div class="field-group full-width">
+                <label class="field-label" for="about-bio">About Bio Narrative</label>
+                <textarea class="field-textarea" id="about-bio" rows="6"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 4: EXPERTISE (Skills & Proficiency)
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-expertise">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Expertise & Skills</h1>
+            <p class="page-sub">Manage technical skills, proficiency percentages, and stack tags.</p>
+          </div>
+          <button class="btn-primary-action" id="saveExpertiseBtn">Save Expertise</button>
+        </div>
+
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Proficiency Progress Bars</h2>
+            <button class="btn-sm-primary" id="addSkillBtn">+ Add Skill</button>
+          </div>
+          <div class="skills-editor-list" id="skillsEditorList"></div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 5: PROJECTS (Full CRUD + Reorder)
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-projects">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Projects Manager</h1>
+            <p class="page-sub">Add, edit, reorder, publish, or delete your portfolio projects. Draft projects are hidden from the public site.</p>
+          </div>
+          <button class="btn-primary-action" id="addProjectBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add New Project
+          </button>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="proj-filter-tabs" id="projFilterTabs">
+          <button class="proj-tab active" data-filter="all" id="proj-tab-all">All</button>
+          <button class="proj-tab" data-filter="published" id="proj-tab-published">
+            <span class="pulse-dot-sm green" style="width:7px;height:7px;"></span> Published
+          </button>
+          <button class="proj-tab" data-filter="draft" id="proj-tab-draft">Draft</button>
+          <button class="proj-tab" data-filter="featured" id="proj-tab-featured">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Featured
+          </button>
+        </div>
+
+        <!-- Reorder hint -->
+        <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:12px; display:flex; align-items:center; gap:6px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          Drag rows by the ⣿ handle to reorder — click Save Order to persist changes.
+          <button class="btn-ghost-sm" id="saveOrderBtn" style="margin-left:auto;">Save Order</button>
+        </div>
+
+        <!-- Projects Table -->
+        <div class="projects-table-wrap">
+          <table class="projects-table" id="projectsTable">
+            <thead>
+              <tr>
+                <th style="width:36px;"></th>
+                <th style="width:48px;">Img</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th style="width:90px;">Status</th>
+                <th style="width:80px;">Featured</th>
+                <th style="width:60px;">Order</th>
+                <th style="width:120px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="projectsGrid"></tbody>
+          </table>
+        </div>
+
+        <!-- Empty state (hidden when rows exist) -->
+        <div id="projectsEmpty" style="display:none; text-align:center; padding:60px 20px; color:var(--text-muted);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin-bottom:16px; opacity:0.4;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          <div style="font-size:1rem; margin-bottom:8px;">No projects found</div>
+          <div style="font-size:0.85rem;">Click "Add New Project" to create your first one.</div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 6: WORK PROCESS (6-Step Lifecycle)
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-process">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Work Process</h1>
+            <p class="page-sub">Configure the engineering lifecycle methodology steps displayed on the site.</p>
+          </div>
+          <button class="btn-primary-action" id="saveProcessBtn">Save Process</button>
+        </div>
+
+        <div class="glass-panel">
+          <div class="panel-header"><h2 class="panel-title">Process Steps (01 to 06)</h2></div>
+          <div id="processStepsList" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px;"></div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 7: POSTS (CMS Shell)
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-posts">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Posts & Articles</h1>
+            <p class="page-sub">Manage blog articles and technical case write-ups.</p>
+          </div>
+          <button class="btn-primary-action" onclick="AdminApp.showToast('Posts management ready for upcoming visual editor!')">+ New Post</button>
+        </div>
+        <div class="glass-panel" style="padding:40px; text-align:center;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">📝</div>
+          <h3 style="color:#fff; margin-bottom:6px;">CMS Posts Engine</h3>
+          <p style="color:var(--text-muted); max-width:500px; margin:0 auto;">
+            The Posts collection is initialized in the database. In Step 3, you'll be able to publish articles and bind them dynamically to the portfolio.
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 8: PAGES (CMS Shell)
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-pages">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Pages</h1>
+            <p class="page-sub">Manage page structure and routes.</p>
+          </div>
+        </div>
+        <div class="glass-panel" style="padding:40px; text-align:center;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">📑</div>
+          <h3 style="color:#fff; margin-bottom:6px;">Custom Pages Management</h3>
+          <p style="color:var(--text-muted); max-width:500px; margin:0 auto;">
+            Single-page portfolio sections are modularized in the CMS architecture and ready for full visual editing.
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 9: MEDIA LIBRARY
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-media">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Media Library</h1>
+            <p class="page-sub">Upload, preview, and manage images for projects, portraits, and assets.</p>
+          </div>
+          <label class="btn-primary-action" for="imgUploadInput">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            Upload Images
+          </label>
+          <input type="file" id="imgUploadInput" accept="image/*" style="display:none;" multiple>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          <div class="drop-zone-text">Drop images here or <label for="imgUploadInput" class="drop-link">browse files</label></div>
+          <div class="drop-zone-sub">Supports JPG, PNG, GIF, WEBP, SVG</div>
+        </div>
+
+        <div class="upload-progress" id="uploadProgress" style="display:none;">
+          <div class="upload-progress-bar" id="uploadProgressBar"></div>
+          <div class="upload-progress-text" id="uploadProgressText">Uploading...</div>
+        </div>
+
+        <div class="images-grid" id="imagesGrid"></div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 10: CONTACT (Inquiries & Details)
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-contact">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Contact & Inquiries</h1>
+            <p class="page-sub">Review messages received through the public portfolio transmission form.</p>
+          </div>
+          <button class="btn-ghost" onclick="AdminApp.loadContacts()">Refresh Inquiries</button>
+        </div>
+
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Received Messages</h2>
+          </div>
+          <div id="contactsContainer" style="overflow-x:auto;">
+            <p style="color:var(--text-muted); padding:20px 0;">Loading inquiries...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════
+           PAGE 11: SITE SETTINGS
+      ═══════════════════════════════════════════════════ -->
+      <section class="page" id="page-settings">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Site Settings</h1>
+            <p class="page-sub">Configure social media URLs, testimonials, and SEO tags.</p>
+          </div>
+          <button class="btn-primary-action" id="saveSettingsBtn">Save Settings</button>
+        </div>
+
+        <div class="profile-grid">
+          <div class="glass-panel">
+            <div class="panel-header"><h2 class="panel-title">Social Links</h2></div>
+            <div class="form-grid">
+              <div class="field-group full-width">
+                <label class="field-label" for="setting-linkedin">LinkedIn URL</label>
+                <input type="url" class="field-input" id="setting-linkedin">
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="setting-facebook">Facebook URL</label>
+                <input type="url" class="field-input" id="setting-facebook">
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="setting-instagram">Instagram URL</label>
+                <input type="url" class="field-input" id="setting-instagram">
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="setting-whatsapp">WhatsApp Link</label>
+                <input type="url" class="field-input" id="setting-whatsapp">
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-panel">
+            <div class="panel-header"><h2 class="panel-title">Client Testimonial Endorsement</h2></div>
+            <div   <!-- ═══════════════════════════════════════════════════
+       PROJECT MODAL (Add / Edit) — Full CMS Fields
+  ═══════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="projectModal" style="display:none;">
+    <div class="modal modal-xl" id="projectModalInner">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Add New Project</h2>
+        <button class="modal-close" id="modalClose">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="modal-id">
+
+        <!-- Section Tabs -->
+        <div class="modal-tabs" id="modalTabs">
+          <button class="modal-tab active" data-tab="basic">Basic Info</button>
+          <button class="modal-tab" data-tab="media">Images & Media</button>
+          <button class="modal-tab" data-tab="details">Details & Display</button>
+        </div>
+
+        <!-- TAB: Basic Info -->
+        <div class="modal-tab-panel active" id="modal-tab-basic">
+          <div class="form-grid">
+            <div class="field-group full-width">
+              <label class="field-label">Project Title *</label>
+              <input type="text" class="field-input" id="modal-title" placeholder="Project name" required>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Category *</label>
+              <select class="field-input field-select" id="modal-category">
+                <option value="streaming">Broadcast &amp; Streaming</option>
+                <option value="web">Web Platforms</option>
+                <option value="multimedia">Audio &amp; Media</option>
+                <option value="design">Design &amp; Creative</option>
+                <option value="automation">Automation &amp; Scripts</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Category Subtitle Label</label>
+              <input type="text" class="field-input" id="modal-categoryLabel" placeholder="e.g. Full Stack &amp; Streaming Architecture">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Client Name (optional)</label>
+              <input type="text" class="field-input" id="modal-client" placeholder="e.g. Indusara Media">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Project Year / Date</label>
+              <input type="text" class="field-input" id="modal-year" placeholder="e.g. 2024">
+            </div>
+            <div class="field-group full-width">
+              <label class="field-label">Short Description (shown on project card)</label>
+              <textarea class="field-textarea" id="modal-description" rows="3" placeholder="Brief one-paragraph summary shown on the project card..."></textarea>
+            </div>
+            <div class="field-group full-width">
+              <label class="field-label">Full Case Study / Detail HTML (shown in modal popup)</label>
+              <div class="rte-toolbar" data-target="modal-detailHtml">
+                <button type="button" class="rte-btn" data-action="bold"><b>B</b></button>
+                <button type="button" class="rte-btn" data-action="italic"><i>I</i></button>
+                <button type="button" class="rte-btn" data-action="link">🔗</button>
+                <button type="button" class="rte-btn" data-action="code">&lt;/&gt;</button>
+              </div>
+              <textarea class="field-textarea" id="modal-detailHtml" rows="5" placeholder="<p>Full HTML description, case study, or project story...</p>"></textarea>
+            </div>
+            <div class="field-group full-width">
+              <label class="field-label">Technologies / Tags (comma-separated)</label>
+              <input type="text" class="field-input" id="modal-tags" placeholder="React, Node.js, Docker, WebRTC, HLS...">
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: Images & Media -->
+        <div class="modal-tab-panel" id="modal-tab-media">
+          <div class="form-grid">
+            <!-- Main Cover Image -->
+            <div class="field-group full-width">
+              <label class="field-label">Main / Cover Image *</label>
+              <div class="image-upload-area" id="coverImageArea">
+                <div class="image-preview-box">
+                  <img id="modal-image-preview" src="" alt="" class="cover-img-preview" style="display:none;">
+                  <div class="image-placeholder" id="coverPlaceholder">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span>No image selected</span>
+                  </div>
+                </div>
+                <div class="image-upload-controls">
+                  <input type="text" class="field-input" id="modal-image" placeholder="assets/images/project.jpg" oninput="AdminApp.updateCoverPreview()">
+                  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <label class="btn-ghost-sm upload-label" for="modal-cover-upload">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                      Upload
+                    </label>
+                    <input type="file" id="modal-cover-upload" accept="image/*" style="display:none;" onchange="AdminApp.uploadCoverImage(this)">
+                    <button type="button" class="btn-ghost-sm" onclick="AdminApp.openImagePicker('modal-image')">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      Library
+                    </button>
+                    <button type="button" class="btn-ghost-sm" onclick="AdminApp.clearCoverImage()" style="color:var(--red);">✕ Clear</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Video URL -->
+            <div class="field-group full-width">
+              <label class="field-label">Project Video URL (optional)</label>
+              <input type="url" class="field-input" id="modal-videoUrl" placeholder="https://youtube.com/watch?v=... or https://vimeo.com/...">
+              <span style="font-size:0.75rem; color:var(--text-muted); margin-top:4px; display:block;">YouTube, Vimeo, or direct .mp4 link. Displayed inside the project case study popup.</span>
+            </div>
+
+            <!-- Additional Images -->
+            <div class="field-group full-width">
+              <label class="field-label">Additional Project Images</label>
+              <div id="additionalImagesArea" class="additional-images-grid"></div>
+              <div style="display:flex; gap:8px; margin-top:10px;">
+                <label class="btn-ghost-sm upload-label" for="modal-extra-upload">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  Upload Image
+                </label>
+                <input type="file" id="modal-extra-upload" accept="image/*" style="display:none;" onchange="AdminApp.uploadAdditionalImage(this)">
+                <button type="button" class="btn-ghost-sm" onclick="AdminApp.addImageFromLibrary()">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  From Library
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: Details & Display -->
+        <div class="modal-tab-panel" id="modal-tab-details">
+          <div class="form-grid">
+            <div class="field-group">
+              <label class="field-label">Live Project URL</label>
+              <input type="url" class="field-input" id="modal-liveUrl" placeholder="https://...">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Status Label</label>
+              <input type="text" class="field-input" id="modal-status" placeholder="e.g. Active Production">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Overlay Badge Text</label>
+              <input type="text" class="field-input" id="modal-badge" placeholder="e.g. Live Broadcast">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Badge Color Accent</label>
+              <select class="field-input field-select" id="modal-badgeType">
+                <option value="green">Green (Active / Live)</option>
+                <option value="cyan">Cyan (System Engine)</option>
+                <option value="purple">Purple (Creative)</option>
+                <option value="orange">Orange (Beta)</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Published Status</label>
+              <select class="field-input field-select" id="modal-published">
+                <option value="true">✅ Published (visible on site)</option>
+                <option value="false">📝 Draft (hidden from public)</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Featured On Homepage?</label>
+              <select class="field-input field-select" id="modal-featured">
+                <option value="true">⭐ Yes (Show on homepage)</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Display Order</label>
+              <input type="number" class="field-input" id="modal-displayOrder" min="1" placeholder="1" style="width:100px;">
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="modalCancel">Cancel</button>
+        <button class="btn-primary-lg-sm" id="modalSave">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Save Project</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+/option>
+              <option value="multimedia">Audio &amp; Media</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Category Subtitle Label</label>
+            <input type="text" class="field-input" id="modal-categoryLabel" placeholder="e.g. Full Stack & Streaming Architecture">
+          </div>
+          <div class="field-group full-width">
+            <label class="field-label">Card Summary Description</label>
+            <textarea class="field-textarea" id="modal-description" rows="3" placeholder="Brief one-paragraph summary shown on the project card..."></textarea>
+          </div>
+          <div class="field-group full-width">
+            <label class="field-label">Detail HTML (For modal popup)</label>
+            <textarea class="field-textarea" id="modal-detailHtml" rows="4" placeholder="HTML content for the project detail modal popup..."></textarea>
+          </div>
+          <div class="field-group full-width">
+            <label class="field-label">Image Path</label>
+            <div class="image-field-wrap">
+              <input type="text" class="field-input" id="modal-image" placeholder="assets/images/...">
+              <button type="button" class="btn-ghost-sm" onclick="AdminApp.openImagePicker('modal-image')">Choose</button>
+            </div>
+            <img id="modal-image-preview" class="img-preview" src="" alt="" style="display:none;">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Live Project URL</label>
+            <input type="url" class="field-input" id="modal-liveUrl" placeholder="https://...">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Overlay Badge Text</label>
+            <input type="text" class="field-input" id="modal-badge" placeholder="e.g. Live Broadcast">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Badge Color Accent</label>
+            <select class="field-input field-select" id="modal-badgeType">
+              <option value="green">Green (Active / Live)</option>
+              <option value="cyan">Cyan (System Engine)</option>
+              <option value="purple">Purple (Creative)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Status Label</label>
+            <input type="text" class="field-input" id="modal-status" placeholder="e.g. Active Production">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Featured On Homepage?</label>
+            <select class="field-input field-select" id="modal-featured">
+              <option value="true">Yes (Show on homepage)</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+          <div class="field-group full-width">
+            <label class="field-label">Tags (comma-separated)</label>
+            <input type="text" class="field-input" id="modal-tags" placeholder="React, Node.js, Docker, WebRTC...">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="modalCancel">Cancel</button>
+        <button class="btn-primary-lg-sm" id="modalSave">
+          <span>Save Project</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       IMAGE PICKER MODAL
+  ═══════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="imagePickerModal" style="display:none;">
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <h2 class="modal-title">Select an Image from Media Library</h2>
+        <button class="modal-close" id="imagePickerClose">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="picker-upload-box">
+          <div>
+            <div style="font-weight:600; font-size:0.9rem; color:#fff;">Upload New Image</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Supports JPG, PNG, WEBP, GIF, SVG</div>
+          </div>
+          <label class="btn-sm-primary" for="pickerUploadInput" style="cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            Browse / Upload
+          </label>
+          <input type="file" id="pickerUploadInput" accept="image/*" style="display:none;" onchange="AdminApp.handlePickerUpload(this)">
+        </div>
+        <div class="picker-grid" id="pickerGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       CONFIRM DELETE MODAL
+  ═══════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="confirmModal" style="display:none;">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 class="modal-title">Confirm Delete</h2>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage" style="color:var(--text-sub); line-height:1.5;">Are you sure? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="confirmCancel">Cancel</button>
+        <button class="btn-danger" id="confirmOk">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin JS Controller -->
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

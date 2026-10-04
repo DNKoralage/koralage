@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Devnith Koralage | Software Developer & Systems Engineer</title>
-  <meta name="description" content="Portfolio of Devnith Koralage - Full-Stack Developer, Systems Engineer, and Multimedia Specialist based in Dehiwala, Sri Lanka. Specialized in web platforms and TV/Radio broadcast architectures.">
-  <meta name="keywords" content="Devnith Koralage, Full-Stack Developer, Systems Engineer, Broadcast Architecture, Sri Lanka, React, Next.js, Streaming Servers">
+  <meta name="description"
+    content="Portfolio of Devnith Koralage - Full-Stack Developer, Systems Engineer, and Multimedia Specialist based in Dehiwala, Sri Lanka. Specialized in web platforms and TV/Radio broadcast architectures.">
+  <meta name="keywords"
+    content="Devnith Koralage, Full-Stack Developer, Systems Engineer, Broadcast Architecture, Sri Lanka, React, Next.js, Streaming Servers">
   <meta name="author" content="Devnith Koralage">
 
   <!-- OpenGraph Meta Tags -->
@@ -15,12 +18,15 @@
   <meta property="og:image" content="assets/images/devnith-cyber.jpg">
 
   <!-- Favicon Monogram SVG -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%230B0F19'/><text x='50%' y='65%' font-family='sans-serif' font-weight='900' font-size='52' fill='%2300F0FF' text-anchor='middle'>DK</text></svg>">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%230B0F19'/><text x='50%' y='65%' font-family='sans-serif' font-weight='900' font-size='52' fill='%2300F0FF' text-anchor='middle'>DK</text></svg>">
 
   <!-- Google Fonts: Outfit & Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
@@ -47,6 +53,7 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
 
   <!-- Custom Cyber Neon Cursor Elements -->
@@ -93,8 +100,10 @@
       <!-- Nav Actions (Audio Toggle, Download CV, Mobile Hamburger) -->
       <div class="nav-actions">
         <!-- Futuristic Audio FX Toggle Button -->
-        <button class="audio-toggle-btn" id="audio-toggle-btn" aria-label="Toggle Sound Effects" title="Toggle Futuristic Audio FX">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button class="audio-toggle-btn" id="audio-toggle-btn" aria-label="Toggle Sound Effects"
+          title="Toggle Futuristic Audio FX">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
           </svg>
@@ -102,7 +111,8 @@
 
         <!-- Download CV Action Button -->
         <button class="btn btn-cv" data-open-cv id="btn-header-cv">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -129,31 +139,35 @@
           <!-- Tagline Pill Badge with live pulsing status indicator -->
           <div class="section-tag" id="hero-tagline">
             <span class="pulse-dot green"></span>
-            Software Developer & Systems Engineer
+            <span id="cms-hero-tagline">Software Developer &amp; Systems Engineer</span>
           </div>
 
           <!-- Main Heading -->
-          <h1 class="hero-headline reveal-item">
-            I build <span class="text-gradient">high-performance web experiences</span> &amp; <span class="text-gradient-blue">streaming systems</span> that matter.
+          <h1 class="hero-headline reveal-item" id="cms-hero-headline">
+            I build <span class="text-gradient">high-performance web experiences</span> &amp; <span
+              class="text-gradient-blue">streaming systems</span> that matter.
           </h1>
 
           <!-- Subtext -->
-          <p class="hero-subtext reveal-item delay-1">
-            I'm Devnith Koralage, a passionate Full-Stack Developer, Systems Engineer, and Multimedia Specialist turning complex ideas into scalable, beautiful web applications and broadcast systems.
+          <p class="hero-subtext reveal-item delay-1" id="cms-hero-subtext">
+            I'm Devnith Koralage, a passionate Full-Stack Developer, Systems Engineer, and Multimedia Specialist turning
+            complex ideas into scalable, beautiful web applications and broadcast systems.
           </p>
 
           <!-- Call To Action Buttons -->
           <div class="hero-cta-group reveal-item delay-2">
-            <a href="#projects" class="btn btn-primary" id="hero-cta-projects">
+            <a href="#projects" class="btn btn-primary" id="hero-cta-primary">
               View My Work
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </a>
-            <a href="#contact" class="btn btn-secondary" id="hero-cta-contact">
+            <a href="#contact" class="btn btn-secondary" id="hero-cta-secondary">
               Let's Talk
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
               </svg>
             </a>
@@ -162,34 +176,49 @@
           <!-- Social Links Pill Row -->
           <div class="hero-socials reveal-item delay-3">
             <!-- LinkedIn -->
-            <a href="https://www.linkedin.com/in/dnkoralage1" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="LinkedIn Profile" title="LinkedIn: dnkoralage1">
+            <a href="https://www.linkedin.com/in/dnkoralage1" target="_blank" rel="noopener noreferrer"
+              class="social-icon-btn" aria-label="LinkedIn Profile" title="LinkedIn: dnkoralage1"
+              id="cms-social-linkedin">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                <path
+                  d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
               </svg>
             </a>
             <!-- Facebook -->
-            <a href="https://www.facebook.com/DNKoralage1" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Facebook Profile" title="Facebook: DNKoralage1">
+            <a href="https://www.facebook.com/DNKoralage1" target="_blank" rel="noopener noreferrer"
+              class="social-icon-btn" aria-label="Facebook Profile" title="Facebook: DNKoralage1"
+              id="cms-social-facebook">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+                <path
+                  d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
               </svg>
             </a>
             <!-- Instagram -->
-            <a href="https://www.instagram.com/DNKoralage1" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Instagram Profile" title="Instagram: DNKoralage1">
+            <a href="https://www.instagram.com/DNKoralage1" target="_blank" rel="noopener noreferrer"
+              class="social-icon-btn" aria-label="Instagram Profile" title="Instagram: DNKoralage1"
+              id="cms-social-instagram">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
               </svg>
             </a>
             <!-- Email Direct -->
-            <a href="mailto:dnkoralage@gmail.com" class="social-icon-btn" aria-label="Send Direct Email" title="Email: dnkoralage@gmail.com">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="mailto:dnkoralage@gmail.com" class="social-icon-btn" aria-label="Send Direct Email"
+              title="Email: dnkoralage@gmail.com" id="cms-social-email">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
             </a>
             <!-- WhatsApp Quick Chat -->
-            <a href="https://wa.me/94787984875" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="WhatsApp" title="WhatsApp: +94 78 798 4875">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            <a href="https://wa.me/94787984875" target="_blank" rel="noopener noreferrer" class="social-icon-btn"
+              aria-label="WhatsApp" title="WhatsApp: +94 78 798 4875" id="cms-social-whatsapp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
               </svg>
             </a>
           </div>
@@ -210,46 +239,51 @@
 
             <!-- Portrait Photo Container -->
             <div class="portrait-photo-container">
-              <img src="assets/images/devnith-cyber.jpg" alt="Devnith Koralage - Software Developer & Systems Engineer" class="hero-portrait-img" id="hero-portrait" loading="eager">
+              <img src="assets/images/devnith-cyber.jpg" alt="Devnith Koralage - Software Developer & Systems Engineer"
+                class="hero-portrait-img" id="hero-portrait" loading="eager">
               <div class="portrait-vignette"></div>
             </div>
 
             <!-- Floating Metric Cards (Right Side of portrait, matching reference mockup) -->
             <div class="floating-metric-card metric-card-1">
               <div class="metric-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                   <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
                 </svg>
               </div>
               <div>
-                <div class="metric-val">4+</div>
+                <div class="metric-val" id="cms-stat-experience">4+</div>
                 <div class="metric-lbl">Years of Experience</div>
               </div>
             </div>
 
             <div class="floating-metric-card metric-card-2">
               <div class="metric-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                 </svg>
               </div>
               <div>
-                <div class="metric-val">20+</div>
+                <div class="metric-val" id="cms-stat-projects">20+</div>
                 <div class="metric-lbl">Projects Completed</div>
               </div>
             </div>
 
             <div class="floating-metric-card metric-card-3">
               <div class="metric-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="2" y1="12" x2="22" y2="12"></line>
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                  </path>
                 </svg>
               </div>
               <div>
-                <div class="metric-val">20+</div>
+                <div class="metric-val" id="cms-stat-platforms">20+</div>
                 <div class="metric-lbl">Active Web Platforms</div>
               </div>
             </div>
@@ -274,25 +308,29 @@
     <section class="about-expertise-section" id="about">
       <div class="container">
         <div class="about-expertise-grid">
-          
+
           <!-- LEFT CARD: About Me -->
           <div class="glass-card reveal-item reveal-left" style="padding: 34px;">
             <div class="card-header-bar">
               <div class="card-title-group">
                 <div class="card-title-icon">
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
                 </div>
-                <h2 class="card-title-text">About Me</h2>
+                <h2 class="card-title-text" id="cms-about-heading">About Me</h2>
               </div>
-              <span class="section-tag" style="margin-bottom:0; font-size:0.75rem;">PROFILE</span>
+              <span class="section-tag" style="margin-bottom:0; font-size:0.75rem;"
+                id="cms-about-tagline">PROFILE</span>
             </div>
 
             <!-- Bio Text -->
-            <p class="about-bio-text">
-              Full-Stack Developer and Systems Engineer based in Dehiwala, Sri Lanka. Specialized in building modern, responsive web platforms, advanced TV/radio streaming server architecture, and high-quality multimedia content.
+            <p class="about-bio-text" id="cms-about-bio">
+              Full-Stack Developer and Systems Engineer based in Dehiwala, Sri Lanka. Specialized in building modern,
+              responsive web platforms, advanced TV/radio streaming server architecture, and high-quality multimedia
+              content.
             </p>
 
             <!-- Personal Details Card Grid -->
@@ -301,7 +339,7 @@
                 <div class="meta-icon">👤</div>
                 <div class="meta-info">
                   <span class="meta-label">Name</span>
-                  <span class="meta-value">Devnith Koralage</span>
+                  <span class="meta-value" id="cms-about-name">Devnith Koralage</span>
                 </div>
               </div>
 
@@ -309,7 +347,7 @@
                 <div class="meta-icon">📍</div>
                 <div class="meta-info">
                   <span class="meta-label">Location</span>
-                  <span class="meta-value">Dehiwala, Sri Lanka</span>
+                  <span class="meta-value" id="cms-about-location">Dehiwala, Sri Lanka</span>
                 </div>
               </div>
 
@@ -317,7 +355,8 @@
                 <div class="meta-icon">✉️</div>
                 <div class="meta-info">
                   <span class="meta-label">Email</span>
-                  <a href="mailto:dnkoralage@gmail.com" class="meta-value" style="color:var(--cyan-primary); text-decoration:none;">dnkoralage@gmail.com</a>
+                  <a href="mailto:dnkoralage@gmail.com" class="meta-value" id="cms-email-link"
+                    style="color:var(--cyan-primary); text-decoration:none;">dnkoralage@gmail.com</a>
                 </div>
               </div>
 
@@ -325,7 +364,9 @@
                 <div class="meta-icon">📞</div>
                 <div class="meta-info">
                   <span class="meta-label">Phone</span>
-                  <a href="tel:+94787984875" class="meta-value" style="text-decoration:none; color:inherit;">+94 78 798 4875</a>
+                  <a href="tel:+94787984875" class="meta-value" id="cms-phone-link"
+                    style="text-decoration:none; color:inherit;">+94 78 798
+                    4875</a>
                 </div>
               </div>
 
@@ -335,7 +376,7 @@
                   <span class="meta-label">Availability Status</span>
                   <span class="meta-value status-badge">
                     <span class="pulse-dot green" style="width:7px; height:7px;"></span>
-                    Open to Work / Available for Freelance
+                    <span id="cms-about-availability">Open to Work / Available for Freelance</span>
                   </span>
                 </div>
               </div>
@@ -367,13 +408,14 @@
                 <div class="card-title-icon">
                   <span style="font-family:var(--font-mono); font-weight:800; font-size:1.05rem;">&lt;/&gt;</span>
                 </div>
-                <h2 class="card-title-text">My Expertise</h2>
+                <h2 class="card-title-text" id="cms-expertise-heading">My Expertise</h2>
               </div>
-              <span class="section-tag" style="margin-bottom:0; font-size:0.75rem;">PROFICIENCY</span>
+              <span class="section-tag" style="margin-bottom:0; font-size:0.75rem;"
+                id="cms-expertise-tagline">PROFICIENCY</span>
             </div>
 
             <!-- Skills List with Visual Progress Bars -->
-            <div class="skills-list">
+            <div class="skills-list" id="cms-skills-list">
               <!-- Skill 1 -->
               <div class="skill-row">
                 <div class="skill-header">
@@ -393,7 +435,8 @@
                 <div class="skill-header">
                   <div class="skill-name-wrap">
                     <span class="skill-name">Systems &amp; Broadcasting</span>
-                    <span class="skill-details-tag">TV/Radio Streaming Server Architecture, YouTube Live Automation</span>
+                    <span class="skill-details-tag">TV/Radio Streaming Server Architecture, YouTube Live
+                      Automation</span>
                   </div>
                   <span class="skill-percentage">90%</span>
                 </div>
@@ -433,8 +476,10 @@
 
             <!-- Technology Badges Row -->
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06);">
-              <span style="font-size:0.75rem; color:var(--text-sub); text-transform:uppercase; font-family:var(--font-mono); letter-spacing:0.04em;">Core Stack</span>
-              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+              <span
+                style="font-size:0.75rem; color:var(--text-sub); text-transform:uppercase; font-family:var(--font-mono); letter-spacing:0.04em;">Core
+                Stack</span>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;" id="cms-core-stack">
                 <span class="tech-tag">React</span>
                 <span class="tech-tag">Next.js</span>
                 <span class="tech-tag">Node.js</span>
@@ -459,12 +504,14 @@
         <!-- Section Header with Filter Tabs -->
         <div class="projects-top-bar reveal-item">
           <div>
-            <div class="section-tag">
+            <div class="section-tag" id="cms-projects-tagline">
               <span class="pulse-dot"></span>
-              Portfolio
+              <span id="cms-projects-tagline-text">Portfolio</span>
             </div>
-            <h2 class="section-title">Selected Work</h2>
-            <p class="section-subtitle">Real-world production platforms, automated broadcast backends, and creative media.</p>
+            <h2 class="section-title" id="cms-projects-title">Selected Work</h2>
+            <p class="section-subtitle" id="cms-projects-subtitle">Real-world production platforms, automated broadcast
+              backends, and creative
+              media.</p>
           </div>
 
           <!-- Filter Tabs -->
@@ -477,12 +524,14 @@
         </div>
 
         <!-- Projects Grid -->
-        <div class="projects-grid">
-          
+        <div class="projects-grid" id="cms-projects-grid">
+
           <!-- PROJECT 1: Indusara Media Network & Indusara TV -->
-          <div class="glass-card project-card reveal-item delay-1" data-category="streaming" data-open-project="indusara">
+          <div class="glass-card project-card reveal-item delay-1" data-category="streaming"
+            data-open-project="indusara">
             <div class="project-image-box">
-              <img src="assets/images/indusara.jpg" alt="Indusara Media Network & Indusara TV" class="project-thumb" loading="lazy">
+              <img src="assets/images/indusara.jpg" alt="Indusara Media Network & Indusara TV" class="project-thumb"
+                loading="lazy">
               <div class="project-overlay-badge">
                 <span class="pulse-dot green" style="width:6px; height:6px;"></span>
                 Live Broadcast
@@ -492,7 +541,8 @@
               <div class="project-category">Full Stack &amp; Streaming Architecture</div>
               <h3 class="project-title">Indusara Media Network &amp; Indusara TV</h3>
               <p class="project-desc">
-                Built high-performance web platforms and automated streaming infrastructure powering broadcast operations with ultra-low latency.
+                Built high-performance web platforms and automated streaming infrastructure powering broadcast
+                operations with ultra-low latency.
               </p>
               <div class="project-tech-tags">
                 <span class="tech-tag">React</span>
@@ -526,7 +576,8 @@
               <div class="project-category">Broadcast Systems &amp; Web App</div>
               <h3 class="project-title">Nysco TV &amp; Nysco Radio</h3>
               <p class="project-desc">
-                Custom software development and real-time streaming broadcast engine integrating simultaneous television video feeds and radio distribution.
+                Custom software development and real-time streaming broadcast engine integrating simultaneous television
+                video feeds and radio distribution.
               </p>
               <div class="project-tech-tags">
                 <span class="tech-tag">Next.js</span>
@@ -548,9 +599,11 @@
           </div>
 
           <!-- PROJECT 3: 24/7 YouTube Continuous Radio -->
-          <div class="glass-card project-card reveal-item delay-3" data-category="multimedia" data-open-project="youtube_radio">
+          <div class="glass-card project-card reveal-item delay-3" data-category="multimedia"
+            data-open-project="youtube_radio">
             <div class="project-image-box">
-              <img src="assets/images/youtube-radio.jpg" alt="24/7 YouTube Continuous Radio" class="project-thumb" loading="lazy">
+              <img src="assets/images/youtube-radio.jpg" alt="24/7 YouTube Continuous Radio" class="project-thumb"
+                loading="lazy">
               <div class="project-overlay-badge">
                 <span class="pulse-dot green" style="width:6px; height:6px;"></span>
                 Pioneer 24/7
@@ -560,7 +613,8 @@
               <div class="project-category">Automation &amp; Audio Engineering</div>
               <h3 class="project-title">24/7 YouTube Continuous Radio</h3>
               <p class="project-desc">
-                Designed Sri Lanka's pioneer 24/7 continuous automated live audio stream on YouTube with autonomous playlist management and spectral visualizers.
+                Designed Sri Lanka's pioneer 24/7 continuous automated live audio stream on YouTube with autonomous
+                playlist management and spectral visualizers.
               </p>
               <div class="project-tech-tags">
                 <span class="tech-tag">Python Automation</span>
@@ -594,7 +648,8 @@
               <div class="project-category">Web Development &amp; Multimedia</div>
               <h3 class="project-title">Luminex</h3>
               <p class="project-desc">
-                Full-stack digital solutions and creative content production. Built dynamic web presence with high-converting user experience and motion VFX.
+                Full-stack digital solutions and creative content production. Built dynamic web presence with
+                high-converting user experience and motion VFX.
               </p>
               <div class="project-tech-tags">
                 <span class="tech-tag">Full-Stack</span>
@@ -625,19 +680,21 @@
     <section class="process-section" id="process">
       <div class="container">
         <div class="section-header-wrap centered reveal-item">
-          <div class="section-tag">
+          <div class="section-tag" id="cms-process-tagline">
             <span class="pulse-dot"></span>
-            Methodology
+            <span id="cms-process-tagline-text">Methodology</span>
           </div>
-          <h2 class="section-title">My Work Process</h2>
-          <p class="section-subtitle">A structured, high-precision engineering lifecycle delivering resilient platforms from initial idea to continuous broadcast.</p>
+          <h2 class="section-title" id="cms-process-title">My Work Process</h2>
+          <p class="section-subtitle" id="cms-process-subtitle">A structured, high-precision engineering lifecycle
+            delivering resilient platforms
+            from initial idea to continuous broadcast.</p>
         </div>
 
         <!-- Glowing Connected Timeline -->
         <div class="timeline-track-wrap reveal-item delay-1">
           <div class="timeline-track-line"></div>
 
-          <div class="process-steps-grid">
+          <div class="process-steps-grid" id="cms-process-steps">
             <!-- Step 01 -->
             <div class="process-step-item">
               <div class="step-node-bubble" title="Step 01: Discover">
@@ -709,19 +766,19 @@
       <div class="container">
         <div class="numbers-grid reveal-item">
           <div class="glass-card stat-box">
-            <div class="stat-number text-gradient">20+</div>
+            <div class="stat-number text-gradient" id="cms-stat-clients">20+</div>
             <div class="stat-label">Happy Clients</div>
           </div>
           <div class="glass-card stat-box">
-            <div class="stat-number text-gradient-blue">20+</div>
+            <div class="stat-number text-gradient-blue" id="cms-stat-projects-count">20+</div>
             <div class="stat-label">Projects Completed</div>
           </div>
           <div class="glass-card stat-box">
-            <div class="stat-number text-gradient">4+</div>
+            <div class="stat-number text-gradient" id="cms-stat-experience-years">4+</div>
             <div class="stat-label">Years of Experience</div>
           </div>
           <div class="glass-card stat-box">
-            <div class="stat-number text-gradient-blue">99.9%</div>
+            <div class="stat-number text-gradient-blue" id="cms-stat-uptime">99.9%</div>
             <div class="stat-label">Broadcast Uptime</div>
           </div>
         </div>
@@ -730,10 +787,12 @@
         <div class="glass-card endorsement-card reveal-item delay-2">
           <div style="font-size:2.8rem; line-height:1; color:var(--cyan-primary); font-family:serif;">“</div>
           <div>
-            <p class="client-quote-text">
-              "Devnith is an exceptional systems engineer and developer. He architected our media broadcast pipeline and modern web platform with flawless uptime, sub-second latency, and unmatched attention to detail."
+            <p class="client-quote-text" id="cms-testimonial-quote">
+              "Devnith is an exceptional systems engineer and developer. He architected our media broadcast pipeline and
+              modern web platform with flawless uptime, sub-second latency, and unmatched attention to detail."
             </p>
-            <div class="client-author-info">Indusara Media Executive Team • Broadcast Partner</div>
+            <div class="client-author-info" id="cms-testimonial-author">Indusara Media Executive Team • Broadcast
+              Partner</div>
           </div>
         </div>
       </div>
@@ -745,12 +804,13 @@
     <section class="contact-section" id="contact">
       <div class="container">
         <div class="section-header-wrap reveal-item">
-          <div class="section-tag">
+          <div class="section-tag" id="cms-contact-tagline">
             <span class="pulse-dot green"></span>
-            Available For Hire
+            <span id="cms-contact-tagline-text">Available For Hire</span>
           </div>
-          <h2 class="section-title">Let's Build Something Great</h2>
-          <p class="section-subtitle">Have a project in mind or want to collaborate? I'd love to hear from you.</p>
+          <h2 class="section-title" id="cms-contact-title">Let's Build Something Great</h2>
+          <p class="section-subtitle" id="cms-contact-subtitle">Have a project in mind or want to collaborate? I'd love
+            to hear from you.</p>
         </div>
 
         <div class="contact-layout-grid">
@@ -759,12 +819,14 @@
             <div>
               <h3 style="font-size:1.45rem; color:#fff; margin-bottom:12px;">Contact Information</h3>
               <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6;">
-                Reach out directly via email, phone, or messaging. I respond promptly to project inquiries and engineering consultations.
+                Reach out directly via email, phone, or messaging. I respond promptly to project inquiries and
+                engineering consultations.
               </p>
 
               <div class="contact-meta-list">
                 <!-- Email -->
-                <div class="contact-meta-row" data-copy="dnkoralage@gmail.com" title="Click to copy email address" style="cursor:pointer;">
+                <div class="contact-meta-row" data-copy="dnkoralage@gmail.com" title="Click to copy email address"
+                  style="cursor:pointer;">
                   <div class="contact-icon-sphere">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -773,20 +835,23 @@
                   </div>
                   <div class="contact-detail-text">
                     <span class="contact-detail-label">Email (Click to copy)</span>
-                    <span class="contact-detail-val">dnkoralage@gmail.com</span>
+                    <span class="contact-detail-val" id="cms-contact-email">dnkoralage@gmail.com</span>
                   </div>
                 </div>
 
                 <!-- Phone -->
-                <div class="contact-meta-row" data-copy="+94787984875" title="Click to copy phone number" style="cursor:pointer;">
+                <div class="contact-meta-row" data-copy="+94787984875" title="Click to copy phone number"
+                  style="cursor:pointer;">
                   <div class="contact-icon-sphere">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                      <path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                      </path>
                     </svg>
                   </div>
                   <div class="contact-detail-text">
                     <span class="contact-detail-label">Phone &amp; WhatsApp</span>
-                    <span class="contact-detail-val">+94 78 798 4875</span>
+                    <span class="contact-detail-val" id="cms-contact-phone">+94 78 798 4875</span>
                   </div>
                 </div>
 
@@ -800,7 +865,7 @@
                   </div>
                   <div class="contact-detail-text">
                     <span class="contact-detail-label">Location</span>
-                    <span class="contact-detail-val">Dehiwala, Sri Lanka</span>
+                    <span class="contact-detail-val" id="cms-contact-location">Dehiwala, Sri Lanka</span>
                   </div>
                 </div>
 
@@ -811,7 +876,9 @@
                   </div>
                   <div class="contact-detail-text">
                     <span class="contact-detail-label">Availability</span>
-                    <span class="contact-detail-val" style="color:var(--success-color);">Open to new opportunities</span>
+                    <span class="contact-detail-val" style="color:var(--success-color);"
+                      id="cms-contact-availability">Open to new
+                      opportunities</span>
                   </div>
                 </div>
               </div>
@@ -821,19 +888,25 @@
             <div class="contact-socials-wrap">
               <h4>Connect On Social Media</h4>
               <div style="display:flex; gap:12px; margin-top:10px;">
-                <a href="https://www.linkedin.com/in/dnkoralage1" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="LinkedIn: dnkoralage1">
+                <a href="https://www.linkedin.com/in/dnkoralage1" target="_blank" rel="noopener noreferrer"
+                  class="social-icon-btn" title="LinkedIn: dnkoralage1" id="cms-contact-linkedin">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    <path
+                      d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                   </svg>
                 </a>
-                <a href="https://www.facebook.com/DNKoralage1" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="Facebook: DNKoralage1">
+                <a href="https://www.facebook.com/DNKoralage1" target="_blank" rel="noopener noreferrer"
+                  class="social-icon-btn" title="Facebook: DNKoralage1" id="cms-contact-facebook">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+                    <path
+                      d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
                   </svg>
                 </a>
-                <a href="https://www.instagram.com/DNKoralage1" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="Instagram: DNKoralage1">
+                <a href="https://www.instagram.com/DNKoralage1" target="_blank" rel="noopener noreferrer"
+                  class="social-icon-btn" title="Instagram: DNKoralage1" id="cms-contact-instagram">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                   </svg>
                 </a>
               </div>
@@ -844,7 +917,8 @@
           <div class="glass-card contact-form-card reveal-item reveal-right">
             <h3 style="font-size:1.45rem; color:#fff; margin-bottom:8px;">Send a Direct Message</h3>
             <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:24px;">
-              Fill out the transmission form below to discuss a web platform, streaming architecture, or multimedia collaboration.
+              Fill out the transmission form below to discuss a web platform, streaming architecture, or multimedia
+              collaboration.
             </p>
 
             <form class="contact-form" id="contact-form">
@@ -861,19 +935,22 @@
 
               <div class="form-group">
                 <label class="form-label" for="form-subject">Subject</label>
-                <input type="text" id="form-subject" class="form-input" placeholder="e.g. Broadcast Streaming Architecture Inquiry">
+                <input type="text" id="form-subject" class="form-input"
+                  placeholder="e.g. Broadcast Streaming Architecture Inquiry">
               </div>
 
               <div class="form-group">
                 <label class="form-label" for="form-message">Your Message *</label>
-                <textarea id="form-message" class="form-textarea" placeholder="Describe your project goals, scope, and timeline..." required></textarea>
+                <textarea id="form-message" class="form-textarea"
+                  placeholder="Describe your project goals, scope, and timeline..." required></textarea>
               </div>
 
               <div id="form-status-msg" class="form-status-msg"></div>
 
               <button type="submit" class="btn btn-primary" id="submit-btn" style="width:100%;">
                 Send Message
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13"></line>
                   <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                 </svg>
@@ -893,7 +970,7 @@
       <!-- Monogram Logo & Identity -->
       <div class="footer-brand">
         <div class="logo-badge" style="width:34px; height:34px; font-size:0.85rem;">DK</div>
-        <span style="font-weight:700; color:#fff; font-size:1.05rem;">Devnith Koralage</span>
+        <span style="font-weight:700; color:#fff; font-size:1.05rem;" id="cms-footer-name">Devnith Koralage</span>
       </div>
 
       <!-- Copyright -->
@@ -938,8 +1015,9 @@
   <div class="modal-overlay" id="cv-modal" role="dialog" aria-modal="true">
     <div class="modal-window" style="max-width: 820px;">
       <button class="modal-close-btn" id="cv-close-btn" aria-label="Close modal">✕</button>
-      
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid rgba(0,240,255,0.2); flex-wrap:wrap; gap:14px;">
+
+      <div
+        style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid rgba(0,240,255,0.2); flex-wrap:wrap; gap:14px;">
         <div>
           <h2 style="font-size:1.8rem; color:#fff; margin-bottom:4px;">Devnith Koralage</h2>
           <p style="color:var(--cyan-primary); font-family:var(--font-mono); font-size:0.9rem;">
@@ -958,13 +1036,16 @@
         </div>
       </div>
 
-      <div style="display:flex; flex-direction:column; gap:22px; color:var(--text-muted); font-size:0.95rem; line-height:1.7;">
+      <div
+        style="display:flex; flex-direction:column; gap:22px; color:var(--text-muted); font-size:0.95rem; line-height:1.7;">
         <div>
           <h3 style="color:#fff; font-size:1.15rem; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
             <span style="color:var(--cyan-primary);">■</span> Professional Summary
           </h3>
           <p>
-            Full-Stack Developer, Systems Engineer, and Multimedia Specialist based in Dehiwala, Sri Lanka. Over 4 years of proven track record engineering high-throughput web applications, automated TV &amp; Radio broadcast architectures, and pioneer 24/7 continuous streaming systems with 99.9% uptime.
+            Full-Stack Developer, Systems Engineer, and Multimedia Specialist based in Dehiwala, Sri Lanka. Over 4 years
+            of proven track record engineering high-throughput web applications, automated TV &amp; Radio broadcast
+            architectures, and pioneer 24/7 continuous streaming systems with 99.9% uptime.
           </p>
         </div>
 
@@ -973,20 +1054,27 @@
             <span style="color:var(--cyan-primary);">■</span> Core Technical Competencies
           </h3>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-            <div style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
-              <strong style="color:var(--cyan-primary); display:block; margin-bottom:4px;">Web &amp; Full-Stack:</strong>
+            <div
+              style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+              <strong style="color:var(--cyan-primary); display:block; margin-bottom:4px;">Web &amp;
+                Full-Stack:</strong>
               React, Next.js, Node.js, Express, JavaScript/TypeScript, Tailwind CSS, REST APIs, GraphQL.
             </div>
-            <div style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
-              <strong style="color:var(--cyan-primary); display:block; margin-bottom:4px;">Systems &amp; Broadcast:</strong>
+            <div
+              style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+              <strong style="color:var(--cyan-primary); display:block; margin-bottom:4px;">Systems &amp;
+                Broadcast:</strong>
               TV/Radio Streaming Server Architecture, RTMP, HLS, WebRTC, FFmpeg, Icecast, Linux VPS, Docker.
             </div>
-            <div style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+            <div
+              style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
               <strong style="color:var(--cyan-primary); display:block; margin-bottom:4px;">Automation:</strong>
               YouTube Live 24/7 Automation, Python scripting, Cron automation, Stream health telemetry.
             </div>
-            <div style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
-              <strong style="color:var(--cyan-primary); display:block; margin-bottom:4px;">Multimedia &amp; Audio:</strong>
+            <div
+              style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+              <strong style="color:var(--cyan-primary); display:block; margin-bottom:4px;">Multimedia &amp;
+                Audio:</strong>
               FL Studio, Cubase, Adobe After Effects, Filmora, Sound mastering, Video directing.
             </div>
           </div>
@@ -997,10 +1085,14 @@
             <span style="color:var(--cyan-primary);">■</span> Notable Key Deployments
           </h3>
           <ul style="padding-left:18px; display:flex; flex-direction:column; gap:6px;">
-            <li><strong>Indusara Media Network &amp; Indusara TV:</strong> Full-stack broadcast portal and automated streaming delivery pipeline.</li>
-            <li><strong>Nysco TV &amp; Nysco Radio:</strong> Real-time streaming broadcast engine integrating dual TV and radio streams.</li>
-            <li><strong>24/7 YouTube Continuous Radio:</strong> Sri Lanka's pioneer automated continuous audio stream with synchronized visualizer.</li>
-            <li><strong>Luminex:</strong> High-performance creative agency platform with interactive visual aesthetics.</li>
+            <li><strong>Indusara Media Network &amp; Indusara TV:</strong> Full-stack broadcast portal and automated
+              streaming delivery pipeline.</li>
+            <li><strong>Nysco TV &amp; Nysco Radio:</strong> Real-time streaming broadcast engine integrating dual TV
+              and radio streams.</li>
+            <li><strong>24/7 YouTube Continuous Radio:</strong> Sri Lanka's pioneer automated continuous audio stream
+              with synchronized visualizer.</li>
+            <li><strong>Luminex:</strong> High-performance creative agency platform with interactive visual aesthetics.
+            </li>
           </ul>
         </div>
 
@@ -1009,8 +1101,8 @@
             <span style="color:var(--cyan-primary);">■</span> Contact &amp; Availability
           </h3>
           <p>
-            Email: <a href="mailto:dnkoralage@gmail.com" style="color:var(--cyan-primary);">dnkoralage@gmail.com</a> | 
-            Phone: <a href="tel:+94787984875" style="color:var(--cyan-primary);">+94 78 798 4875</a> | 
+            Email: <a href="mailto:dnkoralage@gmail.com" style="color:var(--cyan-primary);">dnkoralage@gmail.com</a> |
+            Phone: <a href="tel:+94787984875" style="color:var(--cyan-primary);">+94 78 798 4875</a> |
             Location: Dehiwala, Sri Lanka<br>
             Status: Available for Freelance Contracts and Full-Time Positions.
           </p>
@@ -1024,5 +1116,9 @@
 
   <!-- Main JavaScript Engine -->
   <script src="assets/js/main.js"></script>
+
+  <!-- CMS Content Hydration (loads after main.js so animations are registered first) -->
+  <script src="assets/js/cms-loader.js"></script>
 </body>
+
 </html>
