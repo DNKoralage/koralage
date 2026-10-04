@@ -8,13 +8,37 @@
         "num": "01",
         "icon": "🔍",
         "title": "Discover",
-        "desc": "Requirements analysis and research."
+        "desc": "Requirements gathering, project scope, and target audience analysis."
       },
       {
         "num": "02",
         "icon": "📐",
         "title": "Architecture",
-        "desc": "System design and schemas."
+        "desc": "Tech stack selection, database schemas, and systems design."
+      },
+      {
+        "num": "03",
+        "icon": "</>",
+        "title": "Development",
+        "desc": "Clean full-stack coding, API integration, and responsive UI build."
+      },
+      {
+        "num": "04",
+        "icon": "📡",
+        "title": "Streaming Setup",
+        "desc": "Server infrastructure, broadcast engine tuning, and RTMP ingest."
+      },
+      {
+        "num": "05",
+        "icon": "🛡️",
+        "title": "Testing",
+        "desc": "Performance profiling, security auditing, and cross-browser QA."
+      },
+      {
+        "num": "06",
+        "icon": "🚀",
+        "title": "Deploy",
+        "desc": "Production launch, CDN caching, and 24/7 telemetry monitoring."
       }
     ],
     "createdAt": "2026-10-04T04:48:11.890Z",

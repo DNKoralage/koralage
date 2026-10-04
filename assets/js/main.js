@@ -100,8 +100,7 @@ function initSmoothScroll() {
    2. Scroll-Triggered Reveal Animations
    =================================================================== */
 function initScrollReveal() {
-  const revealElements = document.querySelectorAll('.reveal-item');
-  if (!revealElements.length) return;
+  if (typeof IntersectionObserver === 'undefined') return;
 
   const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
@@ -116,7 +115,14 @@ function initScrollReveal() {
     threshold: 0.12,
   });
 
-  revealElements.forEach((elem) => revealObserver.observe(elem));
+  // (Re)observe every not-yet-revealed item. Exposed globally so content that is
+  // injected AFTER load (e.g. the CMS loader re-rendering the projects grid) is
+  // revealed too — otherwise those .reveal-item cards stay at opacity:0 forever.
+  window.refreshRevealAnimations = function () {
+    document.querySelectorAll('.reveal-item:not(.is-revealed)').forEach((elem) => revealObserver.observe(elem));
+  };
+
+  window.refreshRevealAnimations();
 }
 
 /* ===================================================================
@@ -732,7 +738,9 @@ async function fetchCMSProjects() {
   try {
     const res = await fetch('/api/projects');
     if (res.ok) {
-      dynamicProjectsList = await res.json();
+      let body = await res.json();
+      if (body && typeof body === 'object' && 'success' in body) body = body.data;
+      dynamicProjectsList = body || [];
       dynamicProjectsList.forEach(p => {
         if (!projectsData[p.id]) {
           projectsData[p.id] = {

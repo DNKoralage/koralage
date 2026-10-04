@@ -883,9 +883,75 @@
 
           <div class="glass-panel">
             <div class="panel-header"><h2 class="panel-title">Client Testimonial Endorsement</h2></div>
-            <div   <!-- ═══════════════════════════════════════════════════
-       PROJECT MODAL (Add / Edit) — Full CMS Fields
-  ═══════════════════════════════════════════════════ -->
+                        <div class="form-grid">
+              <div class="field-group full-width">
+                <label class="field-label" for="setting-testimonialQuote">Endorsement Quote</label>
+                <textarea class="field-textarea" id="setting-testimonialQuote" rows="3" placeholder="Short client endorsement..."></textarea>
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="setting-testimonialAuthor">Author / Attribution</label>
+                <input type="text" class="field-input" id="setting-testimonialAuthor" placeholder="e.g. Indusara Media Team">
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-panel">
+            <div class="panel-header"><h2 class="panel-title">Brand &amp; Logo</h2></div>
+            <div class="form-grid">
+              <div class="field-group">
+                <label class="field-label" for="setting-brandMonogram">Monogram (badge text)</label>
+                <input type="text" class="field-input" id="setting-brandMonogram" maxlength="4" placeholder="DK">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="setting-brandName">Brand Name</label>
+                <input type="text" class="field-input" id="setting-brandName" placeholder="Devnith Koralage">
+              </div>
+              <div class="field-group full-width">
+                <label class="field-label" for="setting-brandRole">Brand Role / Tagline</label>
+                <input type="text" class="field-input" id="setting-brandRole" placeholder="Systems &amp; Full-Stack">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 12: ADMIN / SECURITY -->
+      <section class="page" id="page-security">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Admin / Security</h1>
+            <p class="page-sub">Change the administrator password and review recent security events.</p>
+          </div>
+        </div>
+
+        <div class="glass-panel" style="max-width:620px;">
+          <div class="panel-header"><h2 class="panel-title">Change Administrator Password</h2></div>
+          <form id="changePasswordForm" autocomplete="off">
+            <div class="field-group full-width">
+              <label class="field-label" for="secCurrentPassword">Current Password</label>
+              <input type="password" class="field-input" id="secCurrentPassword" required autocomplete="current-password">
+            </div>
+            <div class="field-group full-width">
+              <label class="field-label" for="secNewPassword">New Password (minimum 8 characters)</label>
+              <input type="password" class="field-input" id="secNewPassword" required autocomplete="new-password">
+            </div>
+            <div class="field-group full-width">
+              <label class="field-label" for="secConfirmPassword">Confirm New Password</label>
+              <input type="password" class="field-input" id="secConfirmPassword" required autocomplete="new-password">
+            </div>
+            <div id="changePasswordStatus" style="font-size:0.85rem; min-height:18px; margin-top:8px;"></div>
+            <button type="submit" class="btn-primary-action" style="margin-top:12px;">Update Password</button>
+          </form>
+        </div>
+
+        <div class="glass-panel" style="margin-top:20px;">
+          <div class="panel-header"><h2 class="panel-title">Recent Security Events</h2></div>
+          <div id="auditLogsContainer" style="overflow-x:auto; font-size:0.85rem;"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
   <div class="modal-overlay" id="projectModal" style="display:none;">
     <div class="modal modal-xl" id="projectModalInner">
       <div class="modal-header">

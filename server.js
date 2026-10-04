@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
 
-// ─── Load .env file (no external dependencies) ────────────────────────────────
+// â”€â”€â”€ Load .env file (no external dependencies) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function loadEnv() {
   const envPath = path.join(__dirname, '.env');
   if (fs.existsSync(envPath)) {
@@ -65,7 +65,11 @@ const MIME_TYPES = {
   '.ttf': 'font/ttf'
 };
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// Safe upload policy: allow only image types, cap the size.
+const ALLOWED_IMAGE_EXT = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+const MAX_UPLOAD_BYTES = 8 * 1024 * 1024; // 8 MB
+
+// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function setCORS(res) {
   res.setHeader('Access-Control-Allow-Origin', CORS_ORIGIN);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -75,13 +79,13 @@ function setCORS(res) {
 function jsonOk(res, data) {
   setCORS(res);
   res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(data));
+  res.end(JSON.stringify({ success: true, data: (data === undefined ? null : data) }));
 }
 
 function jsonErr(res, code, msg) {
   setCORS(res);
   res.writeHead(code, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ error: msg }));
+  res.end(JSON.stringify({ success: false, error: msg }));
 }
 
 function readBody(req) {
@@ -112,7 +116,47 @@ function checkAuth(req) {
   return validateSession(token);
 }
 
-// ─── Multipart File Parser ─────────────────────────────────────────────────────
+// Guard for admin-only management endpoints.
+// Returns the auth object, or sends a JSON 401/403 response and returns null.
+function requireAdmin(req, res) {
+  const auth = checkAuth(req);
+  if (!auth) {
+    jsonErr(res, 401, 'Unauthorized: authentication required');
+    return null;
+  }
+  const role = auth.user && auth.user.role;
+  if (role && role !== 'admin') {
+    jsonErr(res, 403, 'Forbidden: administrator privileges required');
+    return null;
+  }
+  return auth;
+}
+
+// Known /api paths and their allowed methods (used for JSON 404 / 405 handling).
+function apiAllowedMethods(pathname) {
+  if (pathname === '/api/auth/login' || pathname === '/api/auth') return ['POST'];
+  if (pathname === '/api/auth/me') return ['GET'];
+  if (pathname === '/api/auth/logout') return ['POST'];
+  if (pathname === '/api/auth/change-password') return ['POST'];
+  if (pathname === '/api/home') return ['GET', 'PUT'];
+  if (pathname === '/api/site' || pathname === '/api/public/site') return ['GET', 'PUT'];
+  if (pathname === '/api/projects' || pathname === '/api/public/projects') return ['GET', 'POST'];
+  if (pathname === '/api/projects/reorder') return ['PUT'];
+  if (/^\/api\/projects\/.+/.test(pathname)) return ['PUT', 'DELETE'];
+  if (pathname === '/api/sections') return ['GET'];
+  if (/^\/api\/sections\/.+/.test(pathname)) return ['GET', 'PUT'];
+  if (pathname === '/api/contact') return ['POST'];
+  if (pathname === '/api/admin/dashboard-stats') return ['GET'];
+  if (pathname === '/api/admin/contacts') return ['GET'];
+  if (/^\/api\/admin\/contacts\/.+/.test(pathname)) return ['DELETE'];
+  if (pathname === '/api/admin/audit-logs') return ['GET'];
+  if (pathname === '/api/admin/users') return ['GET'];
+  if (pathname === '/api/images') return ['GET', 'POST'];
+  if (/^\/api\/images\/.+/.test(pathname)) return ['DELETE'];
+  return null;
+}
+
+// â”€â”€â”€ Multipart File Parser â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function parseMultipart(buffer, boundary) {
   const boundaryBuf = Buffer.from('--' + boundary);
   const parts = [];
@@ -144,8 +188,9 @@ function parseMultipart(buffer, boundary) {
   return parts;
 }
 
-// ─── Server Instance ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Server Instance â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const server = http.createServer(async (req, res) => {
+  try {
   const urlObj = new URL(req.url, `http://localhost:${PORT}`);
   const pathname = urlObj.pathname;
 
@@ -156,9 +201,9 @@ const server = http.createServer(async (req, res) => {
     return res.end();
   }
 
-  // ══════════════════════════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   // AUTHENTICATION ROUTES
-  // ══════════════════════════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
   // POST /api/auth/login or /api/auth (backward compatible)
   if ((pathname === '/api/auth/login' || pathname === '/api/auth') && req.method === 'POST') {
@@ -200,14 +245,14 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  // GET /api/auth/me — verify session & return current user profile
+  // GET /api/auth/me â€” verify session & return current user profile
   if (pathname === '/api/auth/me' && req.method === 'GET') {
     const auth = checkAuth(req);
     if (!auth) return jsonErr(res, 401, 'Unauthorized or session expired');
     return jsonOk(res, { ok: true, user: auth.user });
   }
 
-  // POST /api/auth/logout — destroy session
+  // POST /api/auth/logout â€” destroy session
   if (pathname === '/api/auth/logout' && req.method === 'POST') {
     const token = extractToken(req);
     if (token) destroySession(token);
@@ -215,7 +260,7 @@ const server = http.createServer(async (req, res) => {
     return jsonOk(res, { ok: true, message: 'Logged out successfully' });
   }
 
-  // POST /api/auth/change-password — update admin password
+  // POST /api/auth/change-password â€” update admin password
   if (pathname === '/api/auth/change-password' && req.method === 'POST') {
     const auth = checkAuth(req);
     if (!auth) return jsonErr(res, 401, 'Unauthorized');
@@ -247,11 +292,11 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  // ══════════════════════════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   // PUBLIC API ROUTES
-  // ══════════════════════════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-  // GET /api/home — returns aggregated Home Page CMS content
+  // GET /api/home â€” returns aggregated Home Page CMS content
   if (pathname === '/api/home' && req.method === 'GET') {
     const site = db.collection('site').findOne({ id: 'main' }) || db.collection('site').find()[0] || {};
     const processSection = db.collection('sections').findOne({ id: 'process' }) || {};
@@ -263,9 +308,9 @@ const server = http.createServer(async (req, res) => {
     });
   }
 
-  // PUT /api/home — saves complete Home Page CMS content
+  // PUT /api/home â€” saves complete Home Page CMS content
   if (pathname === '/api/home' && req.method === 'PUT') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
+    if (!requireAdmin(req, res)) return;
     try {
       const body = await readBody(req);
       const data = JSON.parse(body.toString());
@@ -310,7 +355,7 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  // GET /api/projects or /api/public/projects — public view (published only)
+  // GET /api/projects or /api/public/projects â€” public view (published only)
   if ((pathname === '/api/projects' || pathname === '/api/public/projects') && req.method === 'GET') {
     const allProjects = db.collection('projects').find();
     // Sort by displayOrder if present
@@ -338,7 +383,7 @@ const server = http.createServer(async (req, res) => {
     return jsonOk(res, db.collection('sections').find());
   }
 
-  // POST /api/contact — receive public contact inquiries
+  // POST /api/contact â€” receive public contact inquiries
   if (pathname === '/api/contact' && req.method === 'POST') {
     try {
       const body = await readBody(req);
@@ -363,13 +408,13 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  // ══════════════════════════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   // PROTECTED CMS / ADMIN API ROUTES
-  // ══════════════════════════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
   // GET /api/admin/dashboard-stats
   if (pathname === '/api/admin/dashboard-stats' && req.method === 'GET') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
+    if (!requireAdmin(req, res)) return;
 
     const imageCount = fs.readdirSync(IMG_DIR).filter(f => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(f)).length;
     const projectCount = db.collection('projects').count();
@@ -390,13 +435,13 @@ const server = http.createServer(async (req, res) => {
 
   // GET /api/admin/contacts & DELETE /api/admin/contacts/:id
   if (pathname === '/api/admin/contacts' && req.method === 'GET') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
+    if (!requireAdmin(req, res)) return;
     return jsonOk(res, db.collection('contacts').find().reverse());
   }
 
   const contactMatch = pathname.match(/^\/api\/admin\/contacts\/(.+)$/);
   if (contactMatch && req.method === 'DELETE') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
+    if (!requireAdmin(req, res)) return;
     const id = decodeURIComponent(contactMatch[1]);
     db.collection('contacts').deleteOne({ id });
     return jsonOk(res, { ok: true });
@@ -404,13 +449,13 @@ const server = http.createServer(async (req, res) => {
 
   // GET /api/admin/audit-logs
   if (pathname === '/api/admin/audit-logs' && req.method === 'GET') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
+    if (!requireAdmin(req, res)) return;
     return jsonOk(res, db.collection('audit_logs').find().slice(-50).reverse());
   }
 
   // GET /api/admin/users
   if (pathname === '/api/admin/users' && req.method === 'GET') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
+    if (!requireAdmin(req, res)) return;
     const users = db.collection('users').find().map(u => {
       const { passwordHash, ...safe } = u;
       return safe;
@@ -420,54 +465,66 @@ const server = http.createServer(async (req, res) => {
 
   // POST /api/projects (Create)
   if (pathname === '/api/projects' && req.method === 'POST') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
-    const body = await readBody(req);
-    const newProject = JSON.parse(body.toString());
-    if (!newProject.title || !newProject.title.trim()) {
-      return jsonErr(res, 400, 'Project title is required');
+    if (!requireAdmin(req, res)) return;
+    try {
+      const body = await readBody(req);
+      const newProject = JSON.parse(body.toString());
+      if (!newProject.title || !newProject.title.trim()) {
+        return jsonErr(res, 400, 'Project title is required');
+      }
+      // Assign displayOrder if not provided
+      if (newProject.displayOrder === undefined || newProject.displayOrder === null) {
+        const existing = db.collection('projects').find();
+        newProject.displayOrder = existing.length + 1;
+      }
+      const saved = db.collection('projects').insertOne(newProject);
+      db.collection('audit_logs').insertOne({ action: 'PROJECT_CREATED', title: saved.title, timestamp: new Date().toISOString() });
+      return jsonOk(res, saved);
+    } catch (err) {
+      return jsonErr(res, 400, 'Malformed request: ' + err.message);
     }
-    // Assign displayOrder if not provided
-    if (newProject.displayOrder === undefined || newProject.displayOrder === null) {
-      const existing = db.collection('projects').find();
-      newProject.displayOrder = existing.length + 1;
-    }
-    const saved = db.collection('projects').insertOne(newProject);
-    db.collection('audit_logs').insertOne({ action: 'PROJECT_CREATED', title: saved.title, timestamp: new Date().toISOString() });
-    return jsonOk(res, saved);
   }
 
-  // PUT /api/projects/reorder — bulk reorder
+  // PUT /api/projects/reorder â€” bulk reorder
   if (pathname === '/api/projects/reorder' && req.method === 'PUT') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
-    const body = await readBody(req);
-    const { order } = JSON.parse(body.toString()); // array of { id, displayOrder }
-    if (!Array.isArray(order)) return jsonErr(res, 400, 'Expected { order: [{id, displayOrder}] }');
-    for (const item of order) {
-      if (item.id) db.collection('projects').updateOne({ id: item.id }, { displayOrder: item.displayOrder });
+    if (!requireAdmin(req, res)) return;
+    try {
+      const body = await readBody(req);
+      const { order } = JSON.parse(body.toString()); // array of { id, displayOrder }
+      if (!Array.isArray(order)) return jsonErr(res, 400, 'Expected { order: [{id, displayOrder}] }');
+      for (const item of order) {
+        if (item.id) db.collection('projects').updateOne({ id: item.id }, { displayOrder: item.displayOrder });
+      }
+      db.collection('audit_logs').insertOne({ action: 'PROJECTS_REORDERED', timestamp: new Date().toISOString() });
+      return jsonOk(res, { ok: true });
+    } catch (err) {
+      return jsonErr(res, 400, 'Malformed request: ' + err.message);
     }
-    db.collection('audit_logs').insertOne({ action: 'PROJECTS_REORDERED', timestamp: new Date().toISOString() });
-    return jsonOk(res, { ok: true });
   }
 
   // PUT /api/projects/:id (Update)
   const projMatch = pathname.match(/^\/api\/projects\/(.+)$/);
   if (projMatch && req.method === 'PUT') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
-    const id = decodeURIComponent(projMatch[1]);
-    const body = await readBody(req);
-    const updated = JSON.parse(body.toString());
-    if (!updated.title || !updated.title.trim()) {
-      return jsonErr(res, 400, 'Project title is required');
+    if (!requireAdmin(req, res)) return;
+    try {
+      const id = decodeURIComponent(projMatch[1]);
+      const body = await readBody(req);
+      const updated = JSON.parse(body.toString());
+      if (!updated.title || !updated.title.trim()) {
+        return jsonErr(res, 400, 'Project title is required');
+      }
+      const result = db.collection('projects').updateOne({ id }, updated);
+      if (!result) return jsonErr(res, 404, 'Project not found');
+      db.collection('audit_logs').insertOne({ action: 'PROJECT_UPDATED', id, title: updated.title, timestamp: new Date().toISOString() });
+      return jsonOk(res, result);
+    } catch (err) {
+      return jsonErr(res, 400, 'Malformed request: ' + err.message);
     }
-    const result = db.collection('projects').updateOne({ id }, updated);
-    if (!result) return jsonErr(res, 404, 'Project not found');
-    db.collection('audit_logs').insertOne({ action: 'PROJECT_UPDATED', id, title: updated.title, timestamp: new Date().toISOString() });
-    return jsonOk(res, result);
   }
 
   // DELETE /api/projects/:id (Delete)
   if (projMatch && req.method === 'DELETE') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
+    if (!requireAdmin(req, res)) return;
     const id = decodeURIComponent(projMatch[1]);
     const proj = db.collection('projects').findOne({ id });
     db.collection('projects').deleteOne({ id });
@@ -477,32 +534,40 @@ const server = http.createServer(async (req, res) => {
 
   // PUT /api/site (Update site config)
   if (pathname === '/api/site' && req.method === 'PUT') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
-    const body = await readBody(req);
-    const updated = JSON.parse(body.toString());
-    const existing = db.collection('site').findOne({ id: 'main' });
-    if (existing) {
-      db.collection('site').updateOne({ id: 'main' }, updated);
-    } else {
-      db.collection('site').insertOne({ id: 'main', ...updated });
+    if (!requireAdmin(req, res)) return;
+    try {
+      const body = await readBody(req);
+      const updated = JSON.parse(body.toString());
+      const existing = db.collection('site').findOne({ id: 'main' });
+      if (existing) {
+        db.collection('site').updateOne({ id: 'main' }, updated);
+      } else {
+        db.collection('site').insertOne({ id: 'main', ...updated });
+      }
+      return jsonOk(res, updated);
+    } catch (err) {
+      return jsonErr(res, 400, 'Malformed request: ' + err.message);
     }
-    return jsonOk(res, updated);
   }
 
   // PUT /api/sections/:id (Update section)
   const sectionMatch = pathname.match(/^\/api\/sections\/(.+)$/);
   if (sectionMatch && req.method === 'PUT') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
-    const id = decodeURIComponent(sectionMatch[1]);
-    const body = await readBody(req);
-    const updated = JSON.parse(body.toString());
-    const existing = db.collection('sections').findOne({ id });
-    if (existing) {
-      db.collection('sections').updateOne({ id }, updated);
-    } else {
-      db.collection('sections').insertOne({ id, ...updated });
+    if (!requireAdmin(req, res)) return;
+    try {
+      const id = decodeURIComponent(sectionMatch[1]);
+      const body = await readBody(req);
+      const updated = JSON.parse(body.toString());
+      const existing = db.collection('sections').findOne({ id });
+      if (existing) {
+        db.collection('sections').updateOne({ id }, updated);
+      } else {
+        db.collection('sections').insertOne({ id, ...updated });
+      }
+      return jsonOk(res, updated);
+    } catch (err) {
+      return jsonErr(res, 400, 'Malformed request: ' + err.message);
     }
-    return jsonOk(res, updated);
   }
 
   // GET /api/images
@@ -515,16 +580,27 @@ const server = http.createServer(async (req, res) => {
 
   // POST /api/images (Image upload)
   if (pathname === '/api/images' && req.method === 'POST') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
+    if (!requireAdmin(req, res)) return;
     const contentType = req.headers['content-type'] || '';
     const boundaryMatch = contentType.match(/boundary=(.+)/);
     if (!boundaryMatch) return jsonErr(res, 400, 'Missing boundary in multipart request');
     const buffer = await readBody(req);
+    if (buffer.length > MAX_UPLOAD_BYTES) {
+      return jsonErr(res, 413, 'File too large. Maximum size is ' + Math.round(MAX_UPLOAD_BYTES / (1024 * 1024)) + ' MB');
+    }
     const parts = parseMultipart(buffer, boundaryMatch[1]);
     const filePart = parts.find(p => p.filename);
     if (!filePart) return jsonErr(res, 400, 'No file found in request');
 
     const safeName = filePart.filename.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const ext = path.extname(safeName).toLowerCase();
+    if (ALLOWED_IMAGE_EXT.indexOf(ext) === -1) {
+      return jsonErr(res, 400, 'Unsupported file type "' + (ext || 'unknown') + '". Allowed: ' + ALLOWED_IMAGE_EXT.join(', '));
+    }
+    if (!filePart.data || filePart.data.length === 0) {
+      return jsonErr(res, 400, 'Uploaded file is empty');
+    }
+
     const destPath = path.join(IMG_DIR, safeName);
     fs.writeFileSync(destPath, filePart.data);
 
@@ -540,7 +616,7 @@ const server = http.createServer(async (req, res) => {
   // DELETE /api/images/:name
   const imgMatch = pathname.match(/^\/api\/images\/(.+)$/);
   if (imgMatch && req.method === 'DELETE') {
-    if (!checkAuth(req)) return jsonErr(res, 401, 'Unauthorized');
+    if (!requireAdmin(req, res)) return;
     const filename = decodeURIComponent(imgMatch[1]);
     const filePath = path.join(IMG_DIR, filename);
     if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
@@ -554,9 +630,22 @@ const server = http.createServer(async (req, res) => {
     return jsonOk(res, { ok: true });
   }
 
-  // ══════════════════════════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   // STATIC FILE SERVING
-  // ══════════════════════════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // API FALLBACK â€” unmatched /api/* never falls through to static handling, so it
+  // always returns JSON: 405 for a known route with the wrong method, else 404.
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  if (pathname.startsWith('/api/')) {
+    const allowed = apiAllowedMethods(pathname);
+    if (allowed && allowed.indexOf(req.method) === -1) {
+      res.setHeader('Allow', allowed.join(', '));
+      return jsonErr(res, 405, req.method + ' not allowed on ' + pathname + '. Allowed: ' + allowed.join(', '));
+    }
+    return jsonErr(res, 404, 'Unknown API route: ' + req.method + ' ' + pathname);
+  }
 
   // 1. Redirect /admin to /admin/ so relative assets resolve correctly
   if (pathname === '/admin') {
@@ -602,13 +691,19 @@ const server = http.createServer(async (req, res) => {
   }
 
   serveFile(filePath);
+  } catch (err) {
+    console.error('[API] Unhandled request error:', (err && err.message) || err);
+    if (!res.headersSent) {
+      try { jsonErr(res, 500, 'Internal server error'); } catch (_) { try { res.end(); } catch (__) {} }
+    }
+  }
 });
 
 server.listen(PORT, () => {
   console.log(`\n======================================================`);
-  console.log(`🚀 CMS Server running at ${APP_URL}/`);
-  console.log(`🛠️  Admin dashboard at ${APP_URL}/admin/`);
-  console.log(`💾 Persistent DB Storage: data/db/`);
+  console.log(`ðŸš€ CMS Server running at ${APP_URL}/`);
+  console.log(`ðŸ› ï¸  Admin dashboard at ${APP_URL}/admin/`);
+  console.log(`ðŸ’¾ Persistent DB Storage: data/db/`);
   console.log(`======================================================\n`);
 });
 

@@ -16,6 +16,7 @@ const AdminApp = (() => {
   let imagePickerTarget = null;
   let deleteCallback = null;
   let currentPage = 'dashboard';
+  let modalExtraImages = [];
 
   // ── API Fetch Helper ─────────────────────────────────────────
   async function apiFetch(path, method = 'GET', body = null) {
@@ -30,6 +31,8 @@ const AdminApp = (() => {
       opts.body = JSON.stringify(body);
     }
     const r = await fetch(path, opts);
+    let payload = null;
+    try { payload = await r.json(); } catch (_) {}
     if (!r.ok) {
       if (r.status === 401 && path === '/api/auth/me') {
         // Session expired or invalid on auth check
@@ -38,10 +41,12 @@ const AdminApp = (() => {
         sessionStorage.removeItem('admin_token');
         showLoginScreen('Session expired. Please sign in again.');
       }
-      const err = await r.json().catch(() => ({ error: r.statusText }));
-      throw new Error(err.error || 'API error');
+      const msg = (payload && payload.error) ? payload.error : ('HTTP ' + r.status + ' ' + r.statusText);
+      throw new Error(msg);
     }
-    return r.json();
+    // API uses the { success, data } envelope — unwrap transparently.
+    if (payload && typeof payload === 'object' && 'success' in payload) return payload.data;
+    return payload;
   }
 
   function showToast(msg, type = 'success') {
@@ -217,13 +222,15 @@ const AdminApp = (() => {
   }
 
   async function loadStats() {
+    const setNum = (id, v) => { const el = $(id); if (el) el.textContent = v; };
+    setNum('ov-projects', '…'); setNum('ov-images', '…'); setNum('ov-contacts', '…'); setNum('ov-skills', '…');
     try {
       const stats = await apiFetch('/api/admin/dashboard-stats');
-      $('ov-projects').textContent = stats.projects;
-      $('ov-images').textContent = stats.images;
-      $('ov-contacts').textContent = stats.contacts;
-      $('ov-skills').textContent = siteData.skills ? siteData.skills.length : 4;
-      $('projectsCount').textContent = stats.projects;
+      setNum('ov-projects', stats.projects);
+      setNum('ov-images', stats.images);
+      setNum('ov-contacts', stats.contacts);
+      setNum('ov-skills', siteData.skills ? siteData.skills.length : 4);
+      setNum('projectsCount', stats.projects);
 
       const inqBadge = $('inquiriesCount');
       if (inqBadge) {
@@ -235,7 +242,8 @@ const AdminApp = (() => {
         }
       }
     } catch (e) {
-      console.warn('Stats fetch warning:', e.message);
+      setNum('ov-projects', '—'); setNum('ov-images', '—'); setNum('ov-contacts', '—'); setNum('ov-skills', '—');
+      showToast('Could not load dashboard stats: ' + e.message, 'error');
     }
   }
 
@@ -251,40 +259,107 @@ const AdminApp = (() => {
     }
   }
 
+  let projFilter = 'all';
+
+  function filteredProjects() {
+    const list = projects || [];
+    if (projFilter === 'published') return list.filter(p => p.published !== false);
+    if (projFilter === 'draft') return list.filter(p => p.published === false);
+    if (projFilter === 'featured') return list.filter(p => p.featured !== false);
+    return list;
+  }
+
   function renderProjects() {
-    const grid = $('projectsGrid');
-    if (!grid) return;
+    const tbody = $('projectsGrid');
+    if (!tbody) return;
+    const emptyEl = $('projectsEmpty');
+
     if (!projects || projects.length === 0) {
-      grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted);">No projects yet. Click "Add New Project" to create your first one.</div>';
+      tbody.innerHTML = '';
+      if (emptyEl) emptyEl.style.display = 'block';
+      return;
+    }
+    if (emptyEl) emptyEl.style.display = 'none';
+
+    const list = filteredProjects();
+    if (list.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:30px; color:var(--text-muted);">No projects match this filter.</td></tr>';
       return;
     }
 
-    grid.innerHTML = projects.map(p => `
-      <div class="project-admin-card" data-id="${p.id}">
-        <div class="project-admin-thumb-wrap">
-          <img src="${p.image || 'assets/images/devnith-cyber.jpg'}" alt="${p.title}" class="project-admin-thumb" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 60\'><rect fill=\'%23111827\' width=\'100\' height=\'60\'/></svg>'">
-          ${p.badge ? `<span class="badge ${p.badgeType || 'green'}">${p.badge}</span>` : ''}
-        </div>
-        <div class="project-admin-body">
-          <div class="project-admin-cat">${p.categoryLabel || p.category}</div>
-          <div class="project-admin-title">${p.title}</div>
-          <p class="project-admin-desc">${p.description || ''}</p>
-          <div class="project-admin-tags">
-            ${(p.tags || []).map(t => `<span class="tag-pill">${t}</span>`).join('')}
-          </div>
-          <div class="project-admin-actions">
-            <button class="btn-icon edit" onclick="AdminApp.editProject('${p.id}')" title="Edit Project">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-              Edit
-            </button>
-            <button class="btn-icon delete" onclick="AdminApp.deleteProject('${p.id}')" title="Delete Project">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
-    `).join('');
+    tbody.innerHTML = list.map(p => {
+      const idx = (projects || []).indexOf(p);
+      const order = (p.displayOrder != null) ? p.displayOrder : (idx + 1);
+      return `
+        <tr draggable="true" data-id="${p.id}" data-index="${idx}">
+          <td class="drag-handle" title="Drag to reorder">&#10495;</td>
+          <td><img class="proj-row-thumb" src="${p.image || 'assets/images/devnith-cyber.jpg'}" alt="" onerror="this.style.visibility='hidden'"></td>
+          <td>
+            <div class="proj-row-title">${p.title || p.id}</div>
+            <div class="proj-row-sub">${(p.tags || []).slice(0, 4).join(' · ')}</div>
+          </td>
+          <td>${p.categoryLabel || p.category || ''}</td>
+          <td>${p.published === false ? '<span class="badge draft">Draft</span>' : '<span class="badge green">Published</span>'}</td>
+          <td>${p.featured !== false ? '&#9733;' : '&mdash;'}</td>
+          <td>${order}</td>
+          <td>
+            <button class="btn-icon edit" onclick="AdminApp.editProject('${p.id}')" title="Edit project">Edit</button>
+            <button class="btn-icon delete" onclick="AdminApp.deleteProject('${p.id}')" title="Delete project">&#10005;</button>
+          </td>
+        </tr>`;
+    }).join('');
+
+    wireProjectDrag();
+  }
+
+  function wireProjectDrag() {
+    const tbody = $('projectsGrid');
+    if (!tbody) return;
+    let dragId = null;
+    tbody.querySelectorAll('tr[draggable]').forEach(tr => {
+      tr.addEventListener('dragstart', () => { dragId = tr.getAttribute('data-id'); tr.classList.add('dragging'); });
+      tr.addEventListener('dragend', () => { tr.classList.remove('dragging'); });
+      tr.addEventListener('dragover', e => e.preventDefault());
+      tr.addEventListener('drop', e => {
+        e.preventDefault();
+        const targetId = tr.getAttribute('data-id');
+        if (!dragId || dragId === targetId) return;
+        const from = (projects || []).findIndex(x => x.id === dragId);
+        const to = (projects || []).findIndex(x => x.id === targetId);
+        if (from < 0 || to < 0) return;
+        const moved = projects.splice(from, 1)[0];
+        projects.splice(to, 0, moved);
+        renderProjects();
+      });
+    });
+  }
+
+  async function saveProjectOrder() {
+    const btn = $('saveOrderBtn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Saving...'; }
+    try {
+      const order = (projects || []).map((p, i) => ({ id: p.id, displayOrder: i + 1 }));
+      await apiFetch('/api/projects/reorder', 'PUT', { order });
+      (projects || []).forEach((p, i) => { p.displayOrder = i + 1; });
+      renderProjects();
+      showToast('Project order saved');
+    } catch (e) {
+      showToast(e.message, 'error');
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Save Order'; }
+    }
+  }
+
+  function initProjectsUI() {
+    const tabs = document.querySelectorAll('#projFilterTabs .proj-tab');
+    tabs.forEach(t => t.addEventListener('click', () => {
+      tabs.forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      projFilter = t.dataset.filter || 'all';
+      renderProjects();
+    }));
+    const saveBtn = $('saveOrderBtn');
+    if (saveBtn) saveBtn.addEventListener('click', saveProjectOrder);
   }
 
   function renderRecentProjects() {
@@ -351,6 +426,10 @@ const AdminApp = (() => {
       if ($('setting-testimonialQuote')) $('setting-testimonialQuote').value = siteData.testimonial.quote || '';
       if ($('setting-testimonialAuthor')) $('setting-testimonialAuthor').value = siteData.testimonial.author || '';
     }
+
+    if ($('setting-brandMonogram')) $('setting-brandMonogram').value = siteData.brandMonogram || 'DK';
+    if ($('setting-brandName')) $('setting-brandName').value = siteData.brandName || siteData.name || '';
+    if ($('setting-brandRole')) $('setting-brandRole').value = siteData.brandRole || '';
 
     renderSkills();
   }
@@ -610,12 +689,17 @@ const AdminApp = (() => {
   function renderImages() {
     const grid = $('imagesGrid');
     if (!grid) return;
-    grid.innerHTML = (images || []).map(img => `
+    if (!images || images.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted);">No images yet. Upload your first image above.</div>';
+      return;
+    }
+    grid.innerHTML = images.map(img => `
       <div class="image-card">
         <img src="${img.url}" alt="${img.name}" loading="lazy">
         <div class="image-card-footer">
           <span class="img-name" title="${img.name}">${img.name}</span>
-          <button class="btn-icon delete" onclick="AdminApp.deleteImage('${img.name}')" title="Delete image">✕</button>
+          <button class="btn-icon" onclick="AdminApp.replaceImage('${img.name}')" title="Replace image">&#8635;</button>
+          <button class="btn-icon delete" onclick="AdminApp.deleteImage('${img.name}')" title="Delete image">&#10005;</button>
         </div>
       </div>
     `).join('');
@@ -648,10 +732,11 @@ const AdminApp = (() => {
         headers: { 'Authorization': `Bearer ${token}` },
         body: fd
       });
-      if (r.ok) {
+      const body = await r.json().catch(() => null);
+      if (r.ok && body && body.success !== false) {
         showToast(`Uploaded ${file.name}`);
       } else {
-        showToast(`Failed to upload ${file.name}`, 'error');
+        showToast((body && body.error) || `Failed to upload ${file.name}`, 'error');
       }
     }
     loadImages();
@@ -831,9 +916,12 @@ const AdminApp = (() => {
           whatsapp: $('setting-whatsapp').value
         };
         siteData.testimonial = {
-          quote: $('setting-testimonialQuote').value,
-          author: $('setting-testimonialAuthor').value
+          quote: $('setting-testimonialQuote') ? $('setting-testimonialQuote').value : (siteData.testimonial || {}).quote,
+          author: $('setting-testimonialAuthor') ? $('setting-testimonialAuthor').value : (siteData.testimonial || {}).author
         };
+        if ($('setting-brandMonogram')) siteData.brandMonogram = $('setting-brandMonogram').value.trim();
+        if ($('setting-brandName')) siteData.brandName = $('setting-brandName').value.trim();
+        if ($('setting-brandRole')) siteData.brandRole = $('setting-brandRole').value.trim();
         await saveSiteData('Site settings updated successfully!');
       });
     }
@@ -907,6 +995,19 @@ const AdminApp = (() => {
     $('modalClose').addEventListener('click', closeProjectModal);
     $('modalCancel').addEventListener('click', closeProjectModal);
 
+    // Modal section tabs (Basic Info / Images & Media / Details & Display)
+    const tabs = document.querySelectorAll('#modalTabs .modal-tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const name = tab.getAttribute('data-tab');
+        document.querySelectorAll('.modal-tab-panel').forEach(p => p.classList.remove('active'));
+        const panel = $('modal-tab-' + name);
+        if (panel) panel.classList.add('active');
+      });
+    });
+
     $('modalSave').addEventListener('click', async () => {
       const id = $('modal-id').value;
       const title = $('modal-title').value.trim();
@@ -927,8 +1028,16 @@ const AdminApp = (() => {
         badgeType: $('modal-badgeType').value,
         status: $('modal-status').value.trim(),
         featured: $('modal-featured').value === 'true',
+        published: $('modal-published') ? $('modal-published').value === 'true' : true,
+        client: $('modal-client') ? $('modal-client').value.trim() : '',
+        year: $('modal-year') ? $('modal-year').value.trim() : '',
+        videoUrl: $('modal-videoUrl') ? $('modal-videoUrl').value.trim() : '',
+        images: modalExtraImages.slice(),
         tags: $('modal-tags').value.split(',').map(t => t.trim()).filter(Boolean)
       };
+      if ($('modal-displayOrder') && $('modal-displayOrder').value !== '') {
+        projData.displayOrder = parseInt($('modal-displayOrder').value, 10);
+      }
 
       try {
         if (id) {
@@ -973,15 +1082,22 @@ const AdminApp = (() => {
     $('modal-status').value = proj ? (proj.status || '') : '';
     $('modal-featured').value = proj ? String(proj.featured !== false) : 'true';
     $('modal-tags').value = proj && proj.tags ? proj.tags.join(', ') : '';
+    if ($('modal-published')) $('modal-published').value = proj ? String(proj.published !== false) : 'true';
+    if ($('modal-displayOrder')) $('modal-displayOrder').value = (proj && proj.displayOrder != null) ? proj.displayOrder : '';
+    if ($('modal-client')) $('modal-client').value = proj ? (proj.client || '') : '';
+    if ($('modal-year')) $('modal-year').value = proj ? (proj.year || '') : '';
+    if ($('modal-videoUrl')) $('modal-videoUrl').value = proj ? (proj.videoUrl || '') : '';
 
-    const preview = $('modal-image-preview');
-    if (proj && proj.image) {
-      preview.src = proj.image;
-      preview.style.display = 'block';
-    } else {
-      preview.style.display = 'none';
-    }
+    // Additional images for this project
+    modalExtraImages = (proj && Array.isArray(proj.images)) ? proj.images.slice() : [];
+    renderExtraImages();
 
+    // Reset to the first tab
+    const tabs = document.querySelectorAll('#modalTabs .modal-tab');
+    tabs.forEach((t, i) => t.classList.toggle('active', i === 0));
+    document.querySelectorAll('.modal-tab-panel').forEach(p => p.classList.toggle('active', p.id === 'modal-tab-basic'));
+
+    updateCoverPreview();
     $('projectModal').style.display = 'flex';
   }
 
@@ -1052,15 +1168,17 @@ const AdminApp = (() => {
   }
 
   function selectImage(url) {
+    if (imagePickerTarget === '__extra__') {
+      modalExtraImages.push(url);
+      renderExtraImages();
+      $('imagePickerModal').style.display = 'none';
+      return;
+    }
     if (imagePickerTarget && $(imagePickerTarget)) {
       $(imagePickerTarget).value = url;
       updateImagePreview(imagePickerTarget);
       if (imagePickerTarget === 'modal-image') {
-        const prev = $('modal-image-preview');
-        if (prev) {
-          prev.src = url;
-          prev.style.display = 'block';
-        }
+        updateCoverPreview();
       }
     }
     $('imagePickerModal').style.display = 'none';
@@ -1079,8 +1197,9 @@ const AdminApp = (() => {
         headers: { 'Authorization': `Bearer ${token}` },
         body: fd
       });
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json();
+      const body = await res.json().catch(() => null);
+      if (!res.ok || !body || body.success === false) throw new Error((body && body.error) || 'Upload failed');
+      const data = body.data;
       if ($(targetInputId)) {
         $(targetInputId).value = data.url;
         updateImagePreview(targetInputId);
@@ -1106,8 +1225,9 @@ const AdminApp = (() => {
         headers: { 'Authorization': `Bearer ${token}` },
         body: fd
       });
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json();
+      const body = await res.json().catch(() => null);
+      if (!res.ok || !body || body.success === false) throw new Error((body && body.error) || 'Upload failed');
+      const data = body.data;
       await loadImages();
       if (imagePickerTarget) {
         selectImage(data.url);
@@ -1120,6 +1240,108 @@ const AdminApp = (() => {
   }
 
   // ── Home Section Navigation Pills ───────────────────────────
+  function updateCoverPreview() {
+    const input = $('modal-image');
+    const prev = $('modal-image-preview');
+    if (!prev) return;
+    const url = input ? input.value.trim() : '';
+    if (url) { prev.src = url; prev.style.display = 'block'; }
+    else { prev.removeAttribute('src'); prev.style.display = 'none'; }
+  }
+
+  function clearCoverImage() {
+    const input = $('modal-image');
+    if (input) input.value = '';
+    updateCoverPreview();
+  }
+
+  async function uploadToLibrary(file) {
+    const fd = new FormData();
+    fd.append('file', file, file.name);
+    const res = await fetch('/api/images', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}` },
+      body: fd
+    });
+    const body = await res.json().catch(() => null);
+    if (!res.ok || !body || body.success === false) throw new Error((body && body.error) || 'Upload failed');
+    return body.data.url;
+  }
+
+  async function uploadCoverImage(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    showToast(`Uploading ${file.name}…`);
+    try {
+      const url = await uploadToLibrary(file);
+      if ($('modal-image')) $('modal-image').value = url;
+      updateCoverPreview();
+      loadImages();
+      showToast(`Uploaded ${file.name}`);
+    } catch (e) { showToast(e.message, 'error'); }
+    input.value = '';
+  }
+
+  async function uploadAdditionalImage(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    showToast(`Uploading ${file.name}…`);
+    try {
+      const url = await uploadToLibrary(file);
+      modalExtraImages.push(url);
+      renderExtraImages();
+      loadImages();
+      showToast(`Added ${file.name}`);
+    } catch (e) { showToast(e.message, 'error'); }
+    input.value = '';
+  }
+
+  function renderExtraImages() {
+    const area = $('additionalImagesArea');
+    if (!area) return;
+    if (!modalExtraImages.length) { area.innerHTML = ''; return; }
+    area.innerHTML = modalExtraImages.map((u, i) => `
+      <div class="extra-img">
+        <img src="${u}" alt="">
+        <button type="button" class="extra-img-x" onclick="AdminApp.removeExtraImage(${i})" title="Remove">&#10005;</button>
+      </div>`).join('');
+  }
+
+  function addImageFromLibrary() {
+    imagePickerTarget = '__extra__';
+    openImagePicker('__extra__');
+  }
+
+  function removeExtraImage(i) {
+    modalExtraImages.splice(i, 1);
+    renderExtraImages();
+  }
+
+  function replaceImage(name) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async () => {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const fd = new FormData();
+      fd.append('file', file, name); // explicit replace: same filename
+      showToast(`Replacing ${name}…`);
+      try {
+        const res = await fetch('/api/images', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: fd
+        });
+        const body = await res.json().catch(() => null);
+        if (!res.ok || !body || body.success === false) throw new Error((body && body.error) || 'Replace failed');
+        showToast(`Replaced ${name}`);
+        loadImages();
+      } catch (e) { showToast(e.message, 'error'); }
+    };
+    input.click();
+  }
+
   function initHomeNav() {
     document.querySelectorAll('#homeSectionNav .home-nav-tab').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -1194,6 +1416,7 @@ const AdminApp = (() => {
       initSaveHandlers();
       initProjectModal();
       initMediaUpload();
+      initProjectsUI();
       checkSession();
     },
     switchPage,
@@ -1226,6 +1449,13 @@ const AdminApp = (() => {
     handlePickerUpload,
     openImagePicker,
     selectImage,
+    updateCoverPreview,
+    clearCoverImage,
+    uploadCoverImage,
+    uploadAdditionalImage,
+    addImageFromLibrary,
+    removeExtraImage,
+    replaceImage,
     showToast,
     loadContacts
   };

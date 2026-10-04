@@ -37,11 +37,18 @@
   let projects = [];
   let processData = { steps: [] };
 
+  // API responses use the { success, data } envelope — unwrap it safely.
+  function unwrap(res) {
+    return res.ok
+      ? res.json().then(b => (b && typeof b === 'object' && 'success' in b) ? b.data : b).catch(() => null)
+      : null;
+  }
+
   try {
     const [siteRes, projectsRes, processRes] = await Promise.all([
-      fetch('/api/site').then(r => r.ok ? r.json() : null),
-      fetch('/api/projects').then(r => r.ok ? r.json() : null),
-      fetch('/api/sections/process').then(r => r.ok ? r.json() : null)
+      fetch('/api/site').then(unwrap),
+      fetch('/api/projects').then(unwrap),
+      fetch('/api/sections/process').then(unwrap)
     ]);
     if (siteRes) site = siteRes;
     if (projectsRes) projects = projectsRes;
@@ -290,8 +297,20 @@
   setText('cms-contact-location', site.location);
   setText('cms-contact-availability', site.availability);
 
+  // ── BRAND / LOGO ─────────────────────────────────────────────
+  if (site.brandMonogram) {
+    setText('cms-brand-monogram', site.brandMonogram);
+    setText('cms-footer-monogram', site.brandMonogram);
+  }
+  if (site.brandName) setText('cms-brand-name', site.brandName);
+  if (site.brandRole) setText('cms-brand-role', site.brandRole);
+
   // ── FOOTER ───────────────────────────────────────────────────
   setText('cms-footer-name', site.name);
+
+  // Re-run reveal animations for content injected above (e.g. the projects grid);
+  // without this, injected .reveal-item cards remain at opacity:0 (invisible).
+  if (typeof window.refreshRevealAnimations === 'function') window.refreshRevealAnimations();
 
   console.log('[CMS] Public site hydrated from CMS successfully.');
 })();

@@ -4,7 +4,7 @@
     "name": "Devnith Koralage",
     "title": "Software Developer & Systems Engineer",
     "tagline": "I build high-performance web experiences & streaming systems that matter.",
-    "bio": "Full-Stack Developer and Systems Engineer based in Dehiwala, Sri Lanka.",
+    "bio": "Full-Stack Developer and Systems Engineer based in Dehiwala, Sri Lanka. Specialized in building modern, responsive web platforms, advanced TV/radio streaming server architecture, and high-quality multimedia content.",
     "location": "Dehiwala, Sri Lanka",
     "email": "dnkoralage@gmail.com",
     "phone": "+94787984875",
@@ -12,9 +12,9 @@
     "heroPortrait": "assets/images/devnith-cyber.jpg",
     "realPortrait": "assets/images/devnith.jpg",
     "heroStats": {
-      "experience": "4+ Years",
-      "projects": "25+",
-      "platforms": "22+"
+      "experience": "4+",
+      "projects": "20+",
+      "platforms": "20+"
     },
     "social": {
       "linkedin": "https://www.linkedin.com/in/dnkoralage1",
@@ -25,21 +25,34 @@
     "skills": [
       {
         "name": "Web Development",
-        "details": "React, Next.js, Node.js",
+        "details": "React, Next.js, Node.js, Tailwind CSS",
         "percentage": 95
       },
       {
         "name": "Systems & Broadcasting",
-        "details": "HLS / RTMP Architecture",
-        "percentage": 92
+        "details": "TV/Radio Streaming Server Architecture, YouTube Live Automation",
+        "percentage": 90
+      },
+      {
+        "name": "Multimedia Production",
+        "details": "Video Editing (After Effects/Filmora), Directing",
+        "percentage": 85
+      },
+      {
+        "name": "Audio Engineering",
+        "details": "FL Studio, Cubase, Music Composition",
+        "percentage": 80
       }
     ],
     "coreStack": [
       "React",
       "Next.js",
       "Node.js",
+      "HLS / RTMP",
       "Docker",
-      "FFmpeg"
+      "FFmpeg",
+      "FL Studio",
+      "After Effects"
     ],
     "testimonial": {
       "quote": "Devnith is an exceptional systems engineer and developer. He architected our media broadcast pipeline and modern web platform with flawless uptime, sub-second latency, and unmatched attention to detail.",
@@ -52,10 +65,10 @@
       "uptime": "99.9%"
     },
     "createdAt": "2026-10-04T04:48:11.883Z",
-    "updatedAt": "2026-10-04T07:04:57.164Z",
-    "heroTagline": "Software Developer & Systems Engineer [CMS LIVE]",
+    "updatedAt": "2026-10-04T13:24:14.373Z",
+    "heroTagline": "Software Developer & Systems Engineer",
     "heroHeading": "I build <span class=\"text-gradient\">high-performance web experiences</span> &amp; <span class=\"text-gradient-blue\">streaming systems</span> that matter.",
-    "heroSubtitle": "Devnith Koralage — Full-Stack Developer & Systems Architect specializing in broadcast streaming.",
+    "heroSubtitle": "I'm Devnith Koralage, a passionate Full-Stack Developer, Systems Engineer, and Multimedia Specialist turning complex ideas into scalable, beautiful web applications and broadcast systems.",
     "heroPrimaryBtn": {
       "text": "Explore Projects",
       "url": "#projects"
@@ -83,6 +96,9 @@
     "contactTagline": "Available For Hire",
     "contactTitle": "Let's Build Something Great",
     "contactSubtitle": "Have a project in mind or want to collaborate?",
-    "contactAvailability": "Open to freelance & systems engineering contracts"
+    "contactAvailability": "Open to freelance & systems engineering contracts",
+    "brandMonogram": "DK",
+    "brandName": "Devnith Koralage",
+    "brandRole": "Systems & Full-Stack"
   }
 ]
